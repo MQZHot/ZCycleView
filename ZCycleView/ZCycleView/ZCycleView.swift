@@ -10,9 +10,9 @@ import UIKit
 
 public class ZCycleView: UIView {
     
-    /// 是否自动滚动
+    /// isAutomatic
     public var isAutomatic: Bool = true
-    /// 是否无限循环
+    /// isInfinite
     public var isInfinite: Bool = true {
         didSet {
             if isInfinite == false {
@@ -23,19 +23,21 @@ public class ZCycleView: UIView {
             }
         }
     }
-    /// 滚动时间
+    /// scroll timeInterval
     public var timeInterval: Int = 2
-    /// 滚动方向
+    /// scrollDirection
     public var scrollDirection: UICollectionViewScrollDirection = .horizontal {
         didSet { flowLayout.scrollDirection = scrollDirection }
     }
-    /// 占位图
+    /// placeholderImage
     public var placeholderImage: UIImage? = nil {
         didSet { placeholderImgView.image = placeholderImage }
     }
     
-// MARK: - 轮播设置 -------------------------------
-    /// 图片轮播 --- 设置图片
+// MARK: - set image or image url or text
+// you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
+    
+    /// set local image
     public func setImagesGroup(_ imagesGroup: Array<UIImage?>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil) {
         if imagesGroup.count == 0 { return }
         resourceType = .image
@@ -43,7 +45,7 @@ public class ZCycleView: UIView {
         self.imagesGroup = imagesGroup
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
-    /// 图片轮播 --- 设置url
+    /// set image url
     public func setUrlsGroup(_ urlsGroup: Array<String>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil) {
         if urlsGroup.count == 0 { return }
         resourceType = .imageURL
@@ -51,7 +53,7 @@ public class ZCycleView: UIView {
         self.imageUrlsGroup = urlsGroup
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
-    /// 文字轮播
+    /// set text
     public func setTitlesGroup(_ titlesGroup: Array<String?>?, attributedTitlesGroup: [NSAttributedString?]? = nil) {
         if attributedTitlesGroup == nil && titlesGroup == nil { return }
         resourceType = .text
@@ -64,20 +66,24 @@ public class ZCycleView: UIView {
         }
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
-    /// 设置文字左侧图片 大小
+    
+// MARK: - If you want the effect in the picture below, use the following method
+// Special reminder, be sure to set the size, otherwise the picture does not display
+    
+    /// set image on title's left
     public func setTitleImagesGroup(_ titleImagesGroup: [UIImage?], sizeGroup:[CGSize?]) {
         self.titleImagesGroup = titleImagesGroup
         self.titleImageSizeGroup = sizeGroup
         collectionView.reloadData()
     }
-    /// 设置文字左侧图片url 大小
+    /// set image url on title's left
     public func setTitleImageUrlsGroup(_ titleImageUrlsGroup: [String?], sizeGroup:[CGSize?]) {
         self.titleImageUrlsGroup = titleImageUrlsGroup
         self.titleImageSizeGroup = sizeGroup
         collectionView.reloadData()
     }
 // MARK: - item setting
-    /// item大小
+    /// The size of the item, the default cycleView size
     public var itemSize: CGSize? {
         didSet {
             if resourceType == .text { return }
@@ -88,104 +94,107 @@ public class ZCycleView: UIView {
             }
         }
     }
-    /// 中间item的放大比例， 建议大于 1
+    /// The scale of the center item 中间item的放大比例
     public var itemZoomScale: CGFloat = 1 {
         didSet {
             if resourceType == .text { return }
             flowLayout.scale = itemZoomScale
         }
     }
-    /// item 间距
+    /// The space of items -- item 间距
     public var itemSpacing: CGFloat = 0 {
         didSet {
             if resourceType == .text { itemSpacing = 0; return }
             flowLayout.minimumLineSpacing = itemSpacing
         }
     }
-    /// item 圆角
+    /// item CornerRadius
     public var itemCornerRadius: CGFloat = 0
-    /// item 边框颜色
+    /// item BorderColor
     public var itemBorderColor: UIColor = UIColor.clear
-    /// item 边框宽度
+    /// item BorderWidth
     public var itemBorderWidth: CGFloat = 0
     
-// MARK: - imageView Setting 图片设置 -------------------------------
-    /// 图片填充方式
+// MARK: - imageView Setting
+    /// content Mode of item's image
     public var imageContentMode: UIViewContentMode = .scaleToFill
     
-// MARK: - titleLabel setting 文字设置 -------------------------------
+// MARK: - titleLabel setting
+    /// The height of the desc containerView, if you set the left image, is also included
     public var titleViewHeight: CGFloat = 25
-    /// title 对齐方式
+    /// titleAlignment
     public var titleAlignment: NSTextAlignment = .left 
-    /// title 字体
+    /// desc font
     public var titleFont: UIFont = UIFont.systemFont(ofSize: 13)
-    /// title 背景颜色
+    /// The backgroundColor of the desc containerView
     public var titleBackgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-    /// title 字体颜色
+    /// titleColor
     public var titleColor: UIColor = UIColor.white
-    /// title 显示行数
+    /// The number of lines of text displayed
     public var titleNumberOfLines = 1
-    /// title 断行方式
+    /// The breakMode of lines of text displayed
     public var titleLineBreakMode: NSLineBreakMode = .byWordWrapping
     
-// MARK: - PageControl 设置 -----------------------
-    /// 隐藏pageControl
+// MARK: - PageControl setting
+    
+    /// Whether to hide pageControl, the default `false`
     public var pageControlIsHidden = false {
         didSet { pageControl.isHidden = pageControlIsHidden }
     }
-    /// 小圆点颜色
+    /// Dot color, the default `gray`
     public var pageControlIndictirColor = UIColor.gray {
         didSet { pageControl.pageIndicatorTintColor = pageControlIndictirColor }
     }
-    /// 当前小圆点颜色
+    /// Current dot color, the default `white`
     public var pageControlCurrentIndictirColor = UIColor.white {
         didSet { pageControl.currentPageIndicatorTintColor = pageControlCurrentIndictirColor }
     }
-    /// 当前图片
+    /// The current dot image
     public var pageControlCurrentIndictorImage: UIImage? {
         didSet { pageControl.currentItemImage = pageControlCurrentIndictorImage }
     }
-    /// 其他图片
+    /// The dot image
     public var pageControlIndictorImage: UIImage? {
         didSet { pageControl.itemImage = pageControlIndictorImage }
     }
-    /// pageControl高度
+    /// The height of pageControl, default `25`
     public var pageControlHeight: CGFloat = 25 {
         didSet {
             pageControl.frame = CGRect(x: 0, y: frame.size.height-pageControlHeight, width: frame.size.width, height: pageControlHeight)
             pageControl.updateFrame()
         }
     }
-    /// 背景颜色
+    /// PageControl's backgroundColor
     public var pageControlBackgroundColor = UIColor.clear {
         didSet { pageControl.backgroundColor = pageControlBackgroundColor }
     }
-    /// 圆点大小
+    /// The size of all dots
     public var pageControlItemSize = CGSize(width: 8, height: 8) {
         didSet { pageControl.controlSize = pageControlItemSize }
     }
-    /// 当前圆点大小
+    /// The size of current dot
     public var pageControlCurrentItemSize: CGSize? {
         didSet { pageControl.currentControlSize = pageControlCurrentItemSize }
     }
-    /// 圆点间距
+    /// The space of dot
     public var pageControlSpacing: CGFloat = 8 {
         didSet { pageControl.controlSpacing = pageControlSpacing }
     }
-    /// 对齐方式
+    /// pageControl Alignment, left/right/center , default `center`
     public var pageControlAlignment: ZCyclePageControlAlignment = .center {
         didSet { pageControl.alignment = pageControlAlignment }
     }
-    /// 圆角
+    /// the radius of dot
     public var pageControlItemRadius: CGFloat? {
         didSet { pageControl.itemCornerRadius = pageControlItemRadius }
     }
-    /// 当前圆角
+    /// the radius of current dot
     public var pageControlCurrentItemRadius: CGFloat? {
         didSet { pageControl.currentItemCornerRadius = pageControlCurrentItemRadius }
     }
     
-// MARK: - 闭包 -----------------------------------
+// MARK: - closure
+// Click and scroll events are in the form of closures
     /// 点击了item
     public var didSelectedItem: ((Int)->())?
     /// 滚动到某一位置
