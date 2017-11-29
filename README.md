@@ -1,19 +1,18 @@
 # ZCycleView
 
-This is a picture/text infinite-scroll library with UICollectionView, It can be very easy to help you make the banner you want,
+This is a picture/text infinite-scroll library with UICollectionView, It can be very easy to help you make the banner you want
+
 使用`UICollectionView`实现常见图片/文字无限轮播，支持自定义`pageControl`，自定义文字样式，以及轮播样式，依赖`kingfisher`
 
-<img src="https://img.shields.io/badge/platform-iOS-yellow.svg">
-<img src="https://img.shields.io/badge/support-swift%204%2B-green.svg">
-<img src="https://img.shields.io/badge/support-iOS%208%2B-blue.svg">
-<img src="https://img.shields.io/cocoapods/v/ZCycleView.svg?style=flat">
+![](https://img.shields.io/badge/platform-iOS-yellow.svg)![](https://img.shields.io/badge/support-swift%204%2B-green.svg)![](https://img.shields.io/badge/support-iOS%208%2B-blue.svg)![](https://img.shields.io/cocoapods/v/ZCycleView.svg?style=flat)
 
 <img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/picture.gif">
 
 ## How To
 
-##### Basic usage
-* pretty easy to use，Basic usage like this
+#### Basic usage
+
+pretty easy to use，Basic usage like this
 ```swift
 let cycleView = ZCycleView(frame: frame)
 cycleView.placeholderImage = UIImage(named: "placeholder")
@@ -21,8 +20,9 @@ cycleView.setUrlsGroup(["http://...", "http://...", "http://..."], titlesGroup: 
 view.addSubview(cycleView)
 ```
 
-##### Set  image or image url or text
-*  you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
+#### Set  image or image url or text
+
+you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
 ```swift
 /// image
 func setImagesGroup(_ imagesGroup: Array<UIImage?>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil)
@@ -33,8 +33,9 @@ func setUrlsGroup(_ urlsGroup: Array<String>, titlesGroup: [String?]? = nil, att
 /// text only
 func setTitlesGroup(_ titlesGroup: Array<String?>?, attributedTitlesGroup: [NSAttributedString?]? = nil)
 ````
-* If you want the effect in the picture below, use the following method
-* Special reminder, be sure to set the size, otherwise the picture does not display
+If you want the effect in the picture below, use the following method
+
+Special reminder, be sure to set the size, otherwise the picture does not display
 
 <img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic1.png">
 
@@ -43,7 +44,7 @@ func setTitleImagesGroup(_ titleImagesGroup: [UIImage?], sizeGroup:[CGSize?])
 
 func setTitleImageUrlsGroup(_ titleImageUrlsGroup: [String?], sizeGroup:[CGSize?])
 ```
-##### About item settings
+#### About item settings
 ```swift
 /// The size of the item, the default cycleView size
 var itemSize: CGSize?
@@ -58,7 +59,7 @@ var itemBorderColor: UIColor = UIColor.clear
 /// item borderWidth
 var itemBorderWidth: CGFloat = 0
 ```
-##### About desc settings
+#### About desc settings
 ```swift
 /// The height of the desc containerView, if you set the left image, is also included
 var titleViewHeight: CGFloat = 25
@@ -75,7 +76,7 @@ public var titleNumberOfLines = 1
 /// The breakMode of lines of text displayed
 public var titleLineBreakMode: NSLineBreakMode = .byWordWrapping
 ```
-##### About pageControl settings
+#### About pageControl settings
 ```swift
 /// Whether to hide pageControl, the default `false`
 var pageControlIsHidden = false
@@ -105,8 +106,8 @@ var pageControlItemRadius: CGFloat?
 var pageControlCurrentItemRadius: CGFloat?
 ```
 
-##### `didSelectedItem` , `didScrollToIndex`
-* Click and scroll events are in the form of closures
+##### didSelectedItem, didScrollToIndex
+Click and scroll events are in the form of closures
 ```swift
 /// click
 var didSelectedItem: ((Int)->())?
