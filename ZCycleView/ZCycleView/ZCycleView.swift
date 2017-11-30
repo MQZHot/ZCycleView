@@ -217,7 +217,7 @@ public class ZCycleView: UIView {
     fileprivate var itemsCount: Int = 0
     fileprivate var realDataCount: Int = 0
     fileprivate var resourceType: ResourceType = .image
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         addPlaceholderImgView()
         addCollectionView()
