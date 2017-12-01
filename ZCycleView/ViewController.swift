@@ -11,8 +11,17 @@ import UIKit
 let width = UIScreen.main.bounds.size.width
 let height = UIScreen.main.bounds.size.height
 
-class ViewController: UIViewController {
+extension ViewController: ZCycleViewProtocol {
+    func cycleViewDidScrollToIndex(_ index: Int) {
+        print(index)
+    }
+    func cycleViewDidSelectedIndex(_ index: Int) {
+        print("selected: \(index)")
+    }
+}
 
+class ViewController: UIViewController {
+    
     
     @IBOutlet weak var cycleView1: ZCycleView!
     @IBOutlet weak var cycleView2: ZCycleView!
@@ -29,9 +38,7 @@ class ViewController: UIViewController {
         cycleView1.pageControlIndictirColor = UIColor.green
         cycleView1.pageControlCurrentIndictirColor = UIColor.red
         cycleView1.scrollDirection = .vertical
-        cycleView1.didSelectedItem = {
-            print("cycleView1 didSelectedItem:  \($0)")
-        }
+        cycleView1.delegate = self
         
         // example 02
         cycleView2.timeInterval = 3
@@ -104,3 +111,5 @@ class ViewController: UIViewController {
         print("dealloc")
     }
 }
+
+
