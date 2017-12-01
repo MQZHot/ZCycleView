@@ -26,22 +26,19 @@ you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of 
 ```swift
 /// image
 func setImagesGroup(_ imagesGroup: Array<UIImage?>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil)
-
 /// image url
 func setUrlsGroup(_ urlsGroup: Array<String>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil)
-
 /// text only
 func setTitlesGroup(_ titlesGroup: Array<String?>?, attributedTitlesGroup: [NSAttributedString?]? = nil)
 ````
 If you want the effect in the picture below, use the following method
 
-Special reminder, be sure to set the size, otherwise the picture does not display
+***Special reminder, be sure to set the size, otherwise the picture does not display***
 
 <img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic1.png">
 
 ```swift
 func setTitleImagesGroup(_ titleImagesGroup: [UIImage?], sizeGroup:[CGSize?])
-
 func setTitleImageUrlsGroup(_ titleImageUrlsGroup: [String?], sizeGroup:[CGSize?])
 ```
 #### About item settings
@@ -124,7 +121,16 @@ var pageControlCurrentItemRadius: CGFloat?
 ```
 
 #### didSelectedItem, didScrollToIndex
-Click and scroll events are in the form of closures
+Click and scroll events are in the form of closures or delegate
+
+```swift
+/// scrollToIndex
+func cycleViewDidScrollToIndex(_ index: Int)
+
+/// selectedIndex
+func cycleViewDidSelectedIndex(_ index: Int)
+```
+
 ```swift
 /// click
 var didSelectedItem: ((Int)->())?

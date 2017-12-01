@@ -8,6 +8,19 @@
 
 import UIKit
 
+public protocol ZCycleViewProtocol {
+    
+    /// scrollToIndex
+    ///
+    /// - Parameter index: index
+    func cycleViewDidScrollToIndex(_ index: Int)
+    
+    /// selectedIndex
+    ///
+    /// - Parameter index: index
+    func cycleViewDidSelectedIndex(_ index: Int)
+}
+
 public class ZCycleView: UIView {
     
     /// isAutomatic
@@ -195,6 +208,8 @@ public class ZCycleView: UIView {
     
 // MARK: - closure
 // Click and scroll events are in the form of closures
+    /// delegate
+    public var delegate: ZCycleViewProtocol?
     /// 点击了item
     public var didSelectedItem: ((Int)->())?
     /// 滚动到某一位置
@@ -340,8 +355,12 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         if let centerIndex = collectionView.indexPathForItem(at: centerViewPoint) {
             if indexPath.item == centerIndex.item {
                 let index = indexPath.item % realDataCount
-                if didSelectedItem != nil {
-                    didSelectedItem!(index)
+                if delegate != nil {
+                    delegate?.cycleViewDidSelectedIndex(index)
+                } else {
+                    if didSelectedItem != nil {
+                        didSelectedItem!(index)
+                    }
                 }
             } else {
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -366,8 +385,12 @@ extension ZCycleView {
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let index = currentIndex() % realDataCount
         pageControl?.currentPage = index
-        if didScrollToIndex != nil {
-            didScrollToIndex!(index)
+        if delegate != nil {
+            delegate?.cycleViewDidScrollToIndex(index)
+        } else {
+            if didScrollToIndex != nil {
+                didScrollToIndex!(index)
+            }
         }
     }
 }
