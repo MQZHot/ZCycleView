@@ -164,11 +164,11 @@ public class ZCycleView: UIView {
     }
     /// The current dot image
     public var pageControlCurrentIndictorImage: UIImage? {
-        didSet { pageControl.currentItemImage = pageControlCurrentIndictorImage }
+        didSet { pageControl.currentDotImage = pageControlCurrentIndictorImage }
     }
     /// The dot image
     public var pageControlIndictorImage: UIImage? {
-        didSet { pageControl.itemImage = pageControlIndictorImage }
+        didSet { pageControl.dotImage = pageControlIndictorImage }
     }
     /// The height of pageControl, default `25`
     public var pageControlHeight: CGFloat = 25 {
@@ -183,27 +183,27 @@ public class ZCycleView: UIView {
     }
     /// The size of all dots
     public var pageControlItemSize = CGSize(width: 8, height: 8) {
-        didSet { pageControl.controlSize = pageControlItemSize }
+        didSet { pageControl.dotSize = pageControlItemSize }
     }
     /// The size of current dot
     public var pageControlCurrentItemSize: CGSize? {
-        didSet { pageControl.currentControlSize = pageControlCurrentItemSize }
+        didSet { pageControl.currentDotSize = pageControlCurrentItemSize }
     }
     /// The space of dot
     public var pageControlSpacing: CGFloat = 8 {
-        didSet { pageControl.controlSpacing = pageControlSpacing }
+        didSet { pageControl.spacing = pageControlSpacing }
     }
     /// pageControl Alignment, left/right/center , default `center`
-    public var pageControlAlignment: ZCyclePageControlAlignment = .center {
+    public var pageControlAlignment: ZPageControlAlignment = .center {
         didSet { pageControl.alignment = pageControlAlignment }
     }
     /// the radius of dot
     public var pageControlItemRadius: CGFloat? {
-        didSet { pageControl.itemCornerRadius = pageControlItemRadius }
+        didSet { pageControl.dotRadius = pageControlItemRadius }
     }
     /// the radius of current dot
     public var pageControlCurrentItemRadius: CGFloat? {
-        didSet { pageControl.currentItemCornerRadius = pageControlCurrentItemRadius }
+        didSet { pageControl.currentDotRadius = pageControlCurrentItemRadius }
     }
     
 // MARK: - closure
@@ -221,7 +221,7 @@ public class ZCycleView: UIView {
     fileprivate var flowLayout: ZCycleLayout!
     fileprivate var collectionView: UICollectionView!
     fileprivate var placeholderImgView: UIImageView!
-    fileprivate var pageControl: ZCyclePageControl!
+    fileprivate var pageControl: ZPageControl!
     fileprivate var imagesGroup: Array<UIImage?> = []
     fileprivate var imageUrlsGroup: Array<String> = []
     fileprivate var titlesGroup: [NSAttributedString?] = []
@@ -270,7 +270,7 @@ public class ZCycleView: UIView {
         
     }
     private func addPageControl() {
-        pageControl = ZCyclePageControl(frame: CGRect(x: 0, y: bounds.size.height - pageControlHeight, width: bounds.size.width, height: pageControlHeight))
+        pageControl = ZPageControl(frame: CGRect(x: 0, y: bounds.size.height - pageControlHeight, width: bounds.size.width, height: pageControlHeight))
         addSubview(pageControl)
     }
     override public func willMove(toWindow newWindow: UIWindow?) {

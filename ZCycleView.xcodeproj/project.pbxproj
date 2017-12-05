@@ -15,7 +15,7 @@
 		D6924A9A1FBE906200ECF805 /* ZCycleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6924A991FBE906200ECF805 /* ZCycleView.swift */; };
 		D6924A9C1FBE945C00ECF805 /* ZCycleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6924A9B1FBE945C00ECF805 /* ZCycleViewCell.swift */; };
 		D6924AA21FC076B800ECF805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6924AA11FC076B800ECF805 /* ViewController.swift */; };
-		D6924AA41FC07BC300ECF805 /* ZCyclePageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6924AA31FC07BC300ECF805 /* ZCyclePageControl.swift */; };
+		D697A7361FD643C100E383B3 /* ZPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D697A7351FD643C100E383B3 /* ZPageControl.swift */; };
 		D6ADC09A1FC7CAD900EB357E /* ZCycleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ADC0991FC7CAD900EB357E /* ZCycleLayout.swift */; };
 		D6D543971FCEA0DD00AA97F4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D543961FCEA0DD00AA97F4 /* TableViewController.swift */; };
 		D6D543991FCEA22100AA97F4 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D543981FCEA22100AA97F4 /* TableViewCell.swift */; };
@@ -34,7 +34,7 @@
 		D6924A991FBE906200ECF805 /* ZCycleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCycleView.swift; sourceTree = "<group>"; };
 		D6924A9B1FBE945C00ECF805 /* ZCycleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCycleViewCell.swift; sourceTree = "<group>"; };
 		D6924AA11FC076B800ECF805 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D6924AA31FC07BC300ECF805 /* ZCyclePageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCyclePageControl.swift; sourceTree = "<group>"; };
+		D697A7351FD643C100E383B3 /* ZPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZPageControl.swift; sourceTree = "<group>"; };
 		D6ADC0991FC7CAD900EB357E /* ZCycleLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCycleLayout.swift; sourceTree = "<group>"; };
 		D6D543961FCEA0DD00AA97F4 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D6D543981FCEA22100AA97F4 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				D6924A991FBE906200ECF805 /* ZCycleView.swift */,
 				D6ADC0991FC7CAD900EB357E /* ZCycleLayout.swift */,
 				D6924A9B1FBE945C00ECF805 /* ZCycleViewCell.swift */,
-				D6924AA31FC07BC300ECF805 /* ZCyclePageControl.swift */,
+				D697A7351FD643C100E383B3 /* ZPageControl.swift */,
 			);
 			path = ZCycleView;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 				D6D543971FCEA0DD00AA97F4 /* TableViewController.swift in Sources */,
 				D6ADC09A1FC7CAD900EB357E /* ZCycleLayout.swift in Sources */,
 				D6924AA21FC076B800ECF805 /* ViewController.swift in Sources */,
-				D6924AA41FC07BC300ECF805 /* ZCyclePageControl.swift in Sources */,
+				D697A7361FD643C100E383B3 /* ZPageControl.swift in Sources */,
 				D6924A871FBE8F8F00ECF805 /* AppDelegate.swift in Sources */,
 				D6924A9A1FBE906200ECF805 /* ZCycleView.swift in Sources */,
 			);
