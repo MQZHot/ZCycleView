@@ -4,7 +4,7 @@ A picture/text infinite-scroll library with UICollectionView, It can be very eas
 
 使用`UICollectionView`实现常见图片/文字无限轮播，支持自定义`pageControl`，自定义文字样式，以及轮播样式
 
-![](https://img.shields.io/badge/platform-iOS-yellow.svg)  ![](https://img.shields.io/badge/support-swift%204%2B-green.svg)  ![](https://img.shields.io/badge/support-iOS%208%2B-blue.svg)  ![](https://img.shields.io/cocoapods/v/ZCycleView.svg?style=flat)
+![image](https://travis-ci.org/MQZHot/ZCycleView.svg?branch=master)   ![](https://img.shields.io/badge/support-swift%204%2B-green.svg)  ![](https://img.shields.io/badge/support-iOS%208%2B-blue.svg)  ![](https://img.shields.io/cocoapods/v/ZCycleView.svg?style=flat)
 
 <img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/picture.gif">
 
