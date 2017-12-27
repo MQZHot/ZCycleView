@@ -127,7 +127,6 @@ public class ZPageControl: UIControl {
         let y = (frame.size.height-height)/2
         return CGRect(x: x, y: y, width: width, height: height)
     }
-    
     fileprivate func setupItems() {
         for item in items { item.removeFromSuperview() }
         items.removeAll()
