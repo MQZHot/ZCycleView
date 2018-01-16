@@ -11,5 +11,5 @@ s.source_files  = "ZCycleView/ZCycleView", "ZCycleView/ZCycleView/*.{swift}"
 s.requires_arc = true
 s.license      = "MIT"
 s.license      = { :type => "MIT", :file => "LICENSE" }
-s.dependency 'Kingfisher', '~>= 4.3.1'
+s.dependency 'Kingfisher', '>= 4.3.1'
 end
