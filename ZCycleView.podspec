@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "ZCycleView"                              
-s.version      = "0.0.3"                                   
+s.version      = "0.0.5"
 s.summary      = "This is a picture/text infinite-scroll library with UICollectionView, It can be very easy to help you make the banner you want"
 s.homepage     = "https://github.com/MQZHot/ZCycleView"
 s.author       = { "mqz" => "mqz1228@163.com" }     

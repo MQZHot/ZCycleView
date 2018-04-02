@@ -48,16 +48,16 @@ class ZCycleLayout: UICollectionViewFlowLayout {
                     let distance = itemSize.width+minimumLineSpacing
                     if absOffset < distance {///当前index
                         scale = (1-absOffset/distance)*(self.scale-1) + 1
-                        attri.zIndex = 1
                     }
                 } else {
                     absOffset = abs(attri.center.y-centerY)
                     let distance = itemSize.height+minimumLineSpacing
                     if absOffset < distance {
                         scale = (1-absOffset/distance)*(self.scale-1) + 1
-                        attri.zIndex = 1
                     }
                 }
+                
+                attri.zIndex = Int(scale * 1000)
                 attri.transform = CGAffineTransform(scaleX:scale,y: scale)
             }
             return attris
