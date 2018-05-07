@@ -6,7 +6,7 @@ use_frameworks!
 
 target 'ZCycleView' do
 
-pod 'Kingfisher', '~> 4.3.1'
+pod 'Kingfisher', '>= 4.3.1'
  
 end
 

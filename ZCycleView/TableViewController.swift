@@ -15,7 +15,15 @@ class TableViewController: UITableViewController {
 
         let cycleView = ZCycleView(frame: CGRect(x: 0, y: 0, width: width, height: width*240/640))
         cycleView.placeholderImage = #imageLiteral(resourceName: "placeholder")
-        cycleView.setUrlsGroup(["http://t.cn/RYVfQep","http://t.cn/RYVfgeI","http://t.cn/RYVfsLo","http://t.cn/RYMuvvn","http://t.cn/RYVfnEO","http://t.cn/RYVf1fd"])
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
+            cycleView.setUrlsGroup(["http://t.cn/RYVfQep",
+                                    "http://t.cn/RYVfgeI",
+                                    "http://t.cn/RYVfsLo",
+                                    "http://t.cn/RYMuvvn",
+                                    "http://t.cn/RYVfnEO",
+                                    "http://t.cn/RYVf1fd"])
+        }
+        
         cycleView.pageControlItemSize = CGSize(width: 16, height: 4)
         cycleView.pageControlItemRadius = 0
         cycleView.pageControlAlignment = .right
