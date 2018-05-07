@@ -393,6 +393,9 @@ extension ZCycleView {
             }
         }
     }
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl?.currentPage = currentIndex() % realDataCount
+    }
 }
 
 // MARK: - deal the first page and last page
