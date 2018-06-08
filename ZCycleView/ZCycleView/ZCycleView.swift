@@ -110,6 +110,7 @@ public class ZCycleView: UIView {
     /// The scale of the center item 中间item的放大比例
     public var itemZoomScale: CGFloat = 1 {
         didSet {
+            collectionView.isPagingEnabled = itemZoomScale == 1
             if resourceType == .text { return }
             flowLayout.scale = itemZoomScale
         }
