@@ -110,6 +110,7 @@ public class ZCycleView: UIView {
     /// The scale of the center item 中间item的放大比例
     public var itemZoomScale: CGFloat = 1 {
         didSet {
+            collectionView.isPagingEnabled = itemZoomScale == 1
             if resourceType == .text { return }
             flowLayout.scale = itemZoomScale
         }
@@ -232,47 +233,54 @@ public class ZCycleView: UIView {
     fileprivate var itemsCount: Int = 0
     fileprivate var realDataCount: Int = 0
     fileprivate var resourceType: ResourceType = .image
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         addPlaceholderImgView()
         addCollectionView()
         addPageControl()
     }
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         addPlaceholderImgView()
         addCollectionView()
         addPageControl()
     }
+    
     private func addPlaceholderImgView() {
         placeholderImgView = UIImageView(frame: bounds)
         placeholderImgView.image = placeholderImage
         addSubview(placeholderImgView)
     }
+    
     private func addCollectionView() {
-        flowLayout = ZCycleLayout()
-        flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
-        flowLayout.minimumInteritemSpacing = 10000
-        flowLayout.minimumLineSpacing = itemSpacing
-        flowLayout.scrollDirection = scrollDirection
-        
-        collectionView = UICollectionView(frame: bounds, collectionViewLayout: flowLayout)
+        flowLayout                                    = ZCycleLayout()
+        flowLayout.itemSize                           = itemSize != nil ? itemSize! : bounds.size
+        flowLayout.minimumInteritemSpacing            = 10000
+        flowLayout.minimumLineSpacing                 = itemSpacing
+        flowLayout.scrollDirection                    = scrollDirection
+
+        collectionView                                = UICollectionView(frame: bounds, collectionViewLayout: flowLayout)
         collectionView.register(ZCycleViewCell.self, forCellWithReuseIdentifier: "ZCycleViewCell")
-        collectionView.backgroundColor = UIColor.clear
-        collectionView.bounces = false
-        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor                = UIColor.clear
+        collectionView.bounces                        = false
+        collectionView.showsVerticalScrollIndicator   = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.scrollsToTop = false
-        collectionView.decelerationRate = 0.0
+        collectionView.delegate                       = self
+        collectionView.dataSource                     = self
+        collectionView.scrollsToTop                   = false
+        collectionView.decelerationRate               = 0.0
+        collectionView.isPagingEnabled                = true
         addSubview(collectionView)
-        
+
     }
+    
     private func addPageControl() {
         pageControl = ZPageControl(frame: CGRect(x: 0, y: bounds.size.height - pageControlHeight, width: bounds.size.width, height: pageControlHeight))
         addSubview(pageControl)
     }
+    
     override public func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         if newWindow != nil {
@@ -281,6 +289,7 @@ public class ZCycleView: UIView {
             self.cancelTimer()
         }
     }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
@@ -313,9 +322,11 @@ public class ZCycleView: UIView {
 
 // MARK: - UICollectionViewDataSource/UICollectionViewDelegate
 extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemsCount
     }
+    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ZCycleViewCell", for: indexPath) as! ZCycleViewCell
