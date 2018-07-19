@@ -314,7 +314,7 @@ public class ZCycleView: UIView {
         collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
         pageControl.numberOfPages = realDataCount
-        pageControl.isHidden = realDataCount == 0   
+        pageControl.isHidden = realDataCount == 1
         pageControl.currentPage = currentIndex() % realDataCount
         if resourceType == .text  {pageControl.isHidden = true}
         if isAutomatic { startTimer() }
