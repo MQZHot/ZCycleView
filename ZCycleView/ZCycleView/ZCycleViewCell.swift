@@ -48,7 +48,7 @@ class ZCycleViewCell: UICollectionViewCell {
                 imageView.image = placeholder
                 return
         }
-        imageView.kf.setImage(with: url, placeholder: placeholder)
+        imageView.kf.setImage(with: url, placeholder: placeholder, options: [.transition(.fade(0.3))])
     }
     
     var imageView: UIImageView!
