@@ -249,9 +249,20 @@ public class ZCycleView: UIView {
     }
     
     private func addPlaceholderImgView() {
-        placeholderImgView = UIImageView(frame: bounds)
+        placeholderImgView = UIImageView(frame: CGRect.zero)
         placeholderImgView.image = placeholderImage
         addSubview(placeholderImgView)
+        placeholderImgView.translatesAutoresizingMaskIntoConstraints = false
+        let hCons = NSLayoutConstraint.constraints(withVisualFormat: "H:|[placeholderImgView]|",
+                                                   options: NSLayoutFormatOptions(),
+                                                   metrics: nil,
+                                                   views: ["placeholderImgView": placeholderImgView])
+        let vCons = NSLayoutConstraint.constraints(withVisualFormat: "V:|[placeholderImgView]|",
+                                                   options: NSLayoutFormatOptions(),
+                                                   metrics: nil,
+                                                   views: ["placeholderImgView": placeholderImgView])
+        addConstraints(hCons)
+        addConstraints(vCons)
     }
     
     private func addCollectionView() {
