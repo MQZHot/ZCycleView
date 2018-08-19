@@ -8,7 +8,8 @@
 
 import UIKit
 
-public protocol ZCycleViewProtocol {
+// modify by LeeYZ
+@objc public protocol ZCycleViewProtocol {
     
     /// scrollToIndex
     ///
@@ -19,9 +20,35 @@ public protocol ZCycleViewProtocol {
     ///
     /// - Parameter index: index
     func cycleViewDidSelectedIndex(_ index: Int)
+    
+    // ----------------------------------- custom cell ------------------------------
+    
+    /// cell identifier
+    /// add by LeeYZ
+    /// get custom cell reuse identifier , default is 'ZCycleViewCell'
+    @objc optional func customCollectionViewCellIdentifier() -> String
+    
+    /// customCell register with class
+    /// add by LeeYZ
+    /// custom collectionViewCell with class
+    @objc optional func customCollectionViewCellClassForCycleScrollView() -> AnyClass
+    
+    /// customCell register with nib
+    /// add by LeeYZ
+    /// custom collectionViewCell with nib
+    @objc optional func customCollectionViewCellNibForCycleScrollView() -> UINib
+    
+    /// setup data for customCell
+    /// add by LeeYZ
+    /// setup customCell
+    @objc optional func setupCustomCell(_ cell: UICollectionViewCell, for index: NSInteger, cycleView: ZCycleView)
 }
 
 public class ZCycleView: UIView {
+    
+    /// cell identifier
+    /// add by LeeYZ
+    private var reuseIdentifier: String = "ZCycleViewCell"
     
     /// isAutomatic
     public var isAutomatic: Bool = true
@@ -47,8 +74,8 @@ public class ZCycleView: UIView {
         didSet { placeholderImgView.image = placeholderImage }
     }
     
-// MARK: - set image or image url or text
-// you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
+    // MARK: - set image or image url or text
+    // you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
     
     /// set local image
     public func setImagesGroup(_ imagesGroup: Array<UIImage?>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil) {
@@ -80,8 +107,8 @@ public class ZCycleView: UIView {
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
     
-// MARK: - If you want the effect in the picture below, use the following method
-// Special reminder, be sure to set the size, otherwise the picture does not display
+    // MARK: - If you want the effect in the picture below, use the following method
+    // Special reminder, be sure to set the size, otherwise the picture does not display
     
     /// set image on title's left
     public func setTitleImagesGroup(_ titleImagesGroup: [UIImage?], sizeGroup:[CGSize?]) {
@@ -95,7 +122,7 @@ public class ZCycleView: UIView {
         self.titleImageSizeGroup = sizeGroup
         collectionView.reloadData()
     }
-// MARK: - item setting
+    // MARK: - item setting
     /// The size of the item, the default cycleView size
     public var itemSize: CGSize? {
         didSet {
@@ -129,15 +156,15 @@ public class ZCycleView: UIView {
     /// item BorderWidth
     public var itemBorderWidth: CGFloat = 0
     
-// MARK: - imageView Setting
+    // MARK: - imageView Setting
     /// content Mode of item's image
     public var imageContentMode: UIViewContentMode = .scaleToFill
     
-// MARK: - titleLabel setting
+    // MARK: - titleLabel setting
     /// The height of the desc containerView, if you set the left image, is also included
     public var titleViewHeight: CGFloat = 25
     /// titleAlignment
-    public var titleAlignment: NSTextAlignment = .left 
+    public var titleAlignment: NSTextAlignment = .left
     /// desc font
     public var titleFont: UIFont = UIFont.systemFont(ofSize: 13)
     /// The backgroundColor of the desc containerView
@@ -149,7 +176,7 @@ public class ZCycleView: UIView {
     /// The breakMode of lines of text displayed
     public var titleLineBreakMode: NSLineBreakMode = .byWordWrapping
     
-// MARK: - PageControl setting
+    // MARK: - PageControl setting
     
     /// Whether to hide pageControl, the default `false`
     public var pageControlIsHidden = false {
@@ -207,10 +234,17 @@ public class ZCycleView: UIView {
         didSet { pageControl.currentDotRadius = pageControlCurrentItemRadius }
     }
     
-// MARK: - closure
-// Click and scroll events are in the form of closures
+    // MARK: - closure
+    // Click and scroll events are in the form of closures
     /// delegate
-    public var delegate: ZCycleViewProtocol?
+    public var delegate: ZCycleViewProtocol? {
+        didSet {
+            /// add by LeeYZ
+            if delegate != nil {
+                registerCell()
+            }
+        }
+    }
     /// 点击了item
     public var didSelectedItem: ((Int)->())?
     /// 滚动到某一位置
@@ -271,9 +305,8 @@ public class ZCycleView: UIView {
         flowLayout.minimumInteritemSpacing            = 10000
         flowLayout.minimumLineSpacing                 = itemSpacing
         flowLayout.scrollDirection                    = scrollDirection
-
+        
         collectionView                                = UICollectionView(frame: bounds, collectionViewLayout: flowLayout)
-        collectionView.register(ZCycleViewCell.self, forCellWithReuseIdentifier: "ZCycleViewCell")
         collectionView.backgroundColor                = UIColor.clear
         collectionView.bounces                        = false
         collectionView.showsVerticalScrollIndicator   = false
@@ -284,7 +317,20 @@ public class ZCycleView: UIView {
         collectionView.decelerationRate               = 0.0
         collectionView.isPagingEnabled                = true
         addSubview(collectionView)
-
+    }
+    
+    /// add by LeeYZ
+    private func registerCell() {
+        if let customReuseIdentifier = delegate?.customCollectionViewCellIdentifier?() {
+            self.reuseIdentifier = customReuseIdentifier
+        }
+        if let customClass = delegate?.customCollectionViewCellClassForCycleScrollView?() {
+            collectionView.register(customClass, forCellWithReuseIdentifier: reuseIdentifier)
+        } else if let customNib = delegate?.customCollectionViewCellNibForCycleScrollView?() {
+            collectionView.register(customNib, forCellWithReuseIdentifier: reuseIdentifier)
+        } else {
+            collectionView.register(ZCycleViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        }
     }
     
     private func addPageControl() {
@@ -340,9 +386,18 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ZCycleViewCell", for: indexPath) as! ZCycleViewCell
+        /// modify by LeeYZ
+        let cycleCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.reuseIdentifier, for: indexPath)
         let index = indexPath.item % realDataCount
+        /// add by LeeYZ
+        if self.delegate?.setupCustomCell?(cycleCell, for: index, cycleView: self) != nil {
+            // 在代码方法中配置自定义cell
+            return cycleCell
+        }
+        /// modify by LeeYZ
+        guard let cell = cycleCell as? ZCycleViewCell else {
+            return cycleCell
+        }
         switch resourceType {
         case .image:
             cell.imageView.image = imagesGroup[index]
@@ -357,7 +412,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.layer.cornerRadius = itemCornerRadius
             cell.layer.masksToBounds = true
         }
-/// --------------------title setting-----------------------  ///
+        /// --------------------title setting-----------------------  ///
         cell.titleContainerViewH = resourceType == .text ? collectionView.bounds.size.height : titleViewHeight
         cell.titleLabel.textAlignment = titleAlignment
         cell.titleContainerView.backgroundColor = titleBackgroundColor
@@ -369,7 +424,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         let titleImageUrl = index < titleImageUrlsGroup.count ? titleImageUrlsGroup[index] : nil
         let titleImageSize = index < titleImageSizeGroup.count ? titleImageSizeGroup[index] : nil
         cell.attributeString(title, titleImgURL: titleImageUrl, titleImage: titleImage, titleImageSize: titleImageSize)
-/// --------------imgView setting----------------------------  ///
+        /// --------------imgView setting----------------------------  ///
         cell.imageView.contentMode = imageContentMode
         return cell
     }
