@@ -316,6 +316,7 @@ public class ZCycleView: UIView {
         collectionView.scrollsToTop                   = false
         collectionView.decelerationRate               = 0.0
         collectionView.isPagingEnabled                = true
+        registerCell()
         addSubview(collectionView)
     }
     

@@ -45,6 +45,7 @@ class ViewController: UIViewController {
         cycleView2.placeholderImage = #imageLiteral(resourceName: "placeholder")//
         DispatchQueue.main.asyncAfter(deadline: .now()+2) {
             self.cycleView2.setUrlsGroup(["http://t.cn/RYMuvvn","http://t.cn/RYVfnEO","http://t.cn/RYVf1fd","http://t.cn/RYVfgeI","http://t.cn/RYVfsLo"])
+            self.cycleView2.pageControlIsHidden = true
         }
         cycleView2.pageControlItemSize = CGSize(width: 16, height: 4)
         cycleView2.pageControlCurrentItemSize = CGSize(width: 10, height: 10)
@@ -53,6 +54,7 @@ class ViewController: UIViewController {
         cycleView2.pageControlHeight = (cycleView2.frame.size.height-90*1.3)/2
         cycleView2.itemSize = CGSize(width: 240, height: 90)
         cycleView2.itemZoomScale = 1.2
+        
         cycleView2.didSelectedItem = {
             print("cycleView2 didSelectedItem:  \($0)")
         }
@@ -105,7 +107,7 @@ class ViewController: UIViewController {
         cycleView5.titleBackgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
         cycleView5.titleNumberOfLines = 0
         cycleView5.titleViewHeight = 40
-        cycleView5.pageControlIsHidden = true
+//        cycleView5.pageControlIsHidden = true
     }
     deinit {
         print("dealloc")
