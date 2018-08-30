@@ -14,12 +14,12 @@ import UIKit
     /// scrollToIndex
     ///
     /// - Parameter index: index
-    func cycleViewDidScrollToIndex(_ index: Int)
+    @objc func cycleViewDidScrollToIndex(_ index: Int)
     
     /// selectedIndex
     ///
     /// - Parameter index: index
-    func cycleViewDidSelectedIndex(_ index: Int)
+    @objc func cycleViewDidSelectedIndex(_ index: Int)
     
     // ----------------------------------- custom cell ------------------------------
     
