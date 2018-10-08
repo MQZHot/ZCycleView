@@ -12,7 +12,7 @@ class ZCycleLayout: UICollectionViewFlowLayout {
 
     var scale: CGFloat = 1 {
         didSet {
-            if scale > 1 {
+            if scale >= 1 {
                 invalidateLayout()
             }
         }

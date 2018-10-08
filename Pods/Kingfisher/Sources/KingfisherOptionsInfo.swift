@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 15/4/23.
 //
-//  Copyright (c) 2017 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -80,6 +80,9 @@ public enum KingfisherOptionsInfoItem {
     ///  If set, `Kingfisher` will only cache the value in memory but not in disk.
     case cacheMemoryOnly
     
+    ///  If set, `Kingfisher` will wait for caching operation to be completed before calling the completion block.
+    case waitForCache
+    
     /// If set, `Kingfisher` will only try to retrieve the image from cache not from network.
     case onlyFromCache
     
@@ -87,7 +90,7 @@ public enum KingfisherOptionsInfoItem {
     case backgroundDecode
     
     /// The associated value of this member will be used as the target queue of dispatch callbacks when
-    /// retrieving images from cache. If not set, `Kingfisher` will use main quese for callbacks.
+    /// retrieving images from cache. If not set, `Kingfisher` will use main queue for callbacks.
     case callbackDispatchQueue(DispatchQueue?)
     
     /// The associated value of this member will be used as the scale factor when converting retrieved data to an image.
@@ -109,7 +112,7 @@ public enum KingfisherOptionsInfoItem {
     case requestModifier(ImageDownloadRequestModifier)
     
     /// Processor for processing when the downloading finishes, a processor will convert the downloaded data to an image
-    /// and/or apply some filter on it. If a cache is connected to the downloader (it happenes when you are using
+    /// and/or apply some filter on it. If a cache is connected to the downloader (it happens when you are using
     /// KingfisherManager or the image extension methods), the converted image will also be sent to cache as well as the
     /// image view. `DefaultImageProcessor.default` will be used by default.
     case processor(ImageProcessor)
@@ -118,6 +121,15 @@ public enum KingfisherOptionsInfoItem {
     /// retrieving from disk cache or vice versa for storing to disk cache.
     /// `DefaultCacheSerializer.default` will be used by default.
     case cacheSerializer(CacheSerializer)
+
+    /// Modifier for modifying an image right before it is used.
+    /// If the image was fetched directly from the downloader, the modifier will
+    /// run directly after the processor.
+    /// If the image is being fetched from a cache, the modifier will run after
+    /// the cacheSerializer.
+    /// Use `ImageModifier` when you need to set properties on a concrete type
+    /// of `Image`, such as a `UIImage`, that do not persist when caching the image.
+    case imageModifier(ImageModifier)
     
     /// Keep the existing image while setting another image to an image view.
     /// By setting this option, the placeholder image parameter of imageview extension method
@@ -132,7 +144,7 @@ public enum KingfisherOptionsInfoItem {
     
     /// If set and an `ImageProcessor` is used, Kingfisher will try to cache both 
     /// the final result and original image. Kingfisher will have a chance to use 
-    /// the original image when another processor is applied to the same resouce, 
+    /// the original image when another processor is applied to the same resource,
     /// instead of downloading it again.
     case cacheOriginalImage
 }
@@ -156,6 +168,7 @@ func <== (lhs: KingfisherOptionsInfoItem, rhs: KingfisherOptionsInfoItem) -> Boo
     case (.fromMemoryCacheOrRefresh, .fromMemoryCacheOrRefresh): return true
     case (.forceTransition, .forceTransition): return true
     case (.cacheMemoryOnly, .cacheMemoryOnly): return true
+    case (.waitForCache, .waitForCache): return true
     case (.onlyFromCache, .onlyFromCache): return true
     case (.backgroundDecode, .backgroundDecode): return true
     case (.callbackDispatchQueue(_), .callbackDispatchQueue(_)): return true
@@ -164,6 +177,7 @@ func <== (lhs: KingfisherOptionsInfoItem, rhs: KingfisherOptionsInfoItem) -> Boo
     case (.requestModifier(_), .requestModifier(_)): return true
     case (.processor(_), .processor(_)): return true
     case (.cacheSerializer(_), .cacheSerializer(_)): return true
+    case (.imageModifier(_), .imageModifier(_)): return true
     case (.keepCurrentImageWhileLoading, .keepCurrentImageWhileLoading): return true
     case (.onlyLoadFirstFrame, .onlyLoadFirstFrame): return true
     case (.cacheOriginalImage, .cacheOriginalImage): return true
@@ -184,17 +198,17 @@ extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
 
 public extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
     /// The target `ImageCache` which is used.
-    public var targetCache: ImageCache {
+    public var targetCache: ImageCache? {
         if let item = lastMatchIgnoringAssociatedValue(.targetCache(.default)),
             case .targetCache(let cache) = item
         {
             return cache
         }
-        return ImageCache.default
+        return nil
     }
     
     /// The original `ImageCache` which is used.
-    public var originalCache: ImageCache {
+    public var originalCache: ImageCache? {
         if let item = lastMatchIgnoringAssociatedValue(.originalCache(.default)),
             case .originalCache(let cache) = item
         {
@@ -204,13 +218,13 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
     }
     
     /// The `ImageDownloader` which is specified.
-    public var downloader: ImageDownloader {
+    public var downloader: ImageDownloader? {
         if let item = lastMatchIgnoringAssociatedValue(.downloader(.default)),
             case .downloader(let downloader) = item
         {
             return downloader
         }
-        return ImageDownloader.default
+        return nil
     }
     
     /// Member for animation transition when using UIImageView.
@@ -252,6 +266,11 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
     /// Whether cache the image only in memory or not.
     public var cacheMemoryOnly: Bool {
         return contains{ $0 <== .cacheMemoryOnly }
+    }
+    
+    /// Whether the caching operation will be waited or not.
+    public var waitForCache: Bool {
+        return contains{ $0 <== .waitForCache }
     }
     
     /// Whether only load the images from cache or not.
@@ -307,6 +326,16 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
             return processor
         }
         return DefaultImageProcessor.default
+    }
+
+    /// `ImageModifier` for modifying right before the image is displayed.
+    public var imageModifier: ImageModifier {
+        if let item = lastMatchIgnoringAssociatedValue(.imageModifier(DefaultImageModifier.default)),
+            case .imageModifier(let imageModifier) = item
+        {
+            return imageModifier
+        }
+        return DefaultImageModifier.default
     }
     
     /// `CacheSerializer` to convert image to data for storing in cache.

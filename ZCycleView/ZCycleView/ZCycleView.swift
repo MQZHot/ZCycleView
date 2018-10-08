@@ -52,6 +52,7 @@ public class ZCycleView: UIView {
     
     /// isAutomatic
     public var isAutomatic: Bool = true
+    
     /// isInfinite
     public var isInfinite: Bool = true {
         didSet {
@@ -63,12 +64,15 @@ public class ZCycleView: UIView {
             }
         }
     }
+    
     /// scroll timeInterval
     public var timeInterval: Int = 2
+    
     /// scrollDirection
     public var scrollDirection: UICollectionViewScrollDirection = .horizontal {
         didSet { flowLayout.scrollDirection = scrollDirection }
     }
+    
     /// placeholderImage
     public var placeholderImage: UIImage? = nil {
         didSet { placeholderImgView.image = placeholderImage }
@@ -85,6 +89,7 @@ public class ZCycleView: UIView {
         self.imagesGroup = imagesGroup
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
+    
     /// set image url
     public func setUrlsGroup(_ urlsGroup: Array<String>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil) {
         if urlsGroup.count == 0 { return }
@@ -93,6 +98,7 @@ public class ZCycleView: UIView {
         self.imageUrlsGroup = urlsGroup
         setResource(titlesGroup, attributedTitlesGroup: attributedTitlesGroup)
     }
+    
     /// set text
     public func setTitlesGroup(_ titlesGroup: Array<String?>?, attributedTitlesGroup: [NSAttributedString?]? = nil) {
         if attributedTitlesGroup == nil && titlesGroup == nil { return }
@@ -116,12 +122,14 @@ public class ZCycleView: UIView {
         self.titleImageSizeGroup = sizeGroup
         collectionView.reloadData()
     }
+    
     /// set image url on title's left
     public func setTitleImageUrlsGroup(_ titleImageUrlsGroup: [String?], sizeGroup:[CGSize?]) {
         self.titleImageUrlsGroup = titleImageUrlsGroup
         self.titleImageSizeGroup = sizeGroup
         collectionView.reloadData()
     }
+    
     // MARK: - item setting
     /// The size of the item, the default cycleView size
     public var itemSize: CGSize? {
@@ -134,6 +142,7 @@ public class ZCycleView: UIView {
             }
         }
     }
+    
     /// The scale of the center item 中间item的放大比例
     public var itemZoomScale: CGFloat = 1 {
         didSet {
@@ -142,6 +151,7 @@ public class ZCycleView: UIView {
             flowLayout.scale = itemZoomScale
         }
     }
+    
     /// The space of items -- item 间距
     public var itemSpacing: CGFloat = 0 {
         didSet {
@@ -149,10 +159,13 @@ public class ZCycleView: UIView {
             flowLayout.minimumLineSpacing = itemSpacing
         }
     }
+    
     /// item CornerRadius
     public var itemCornerRadius: CGFloat = 0
+    
     /// item BorderColor
     public var itemBorderColor: UIColor = UIColor.clear
+    
     /// item BorderWidth
     public var itemBorderWidth: CGFloat = 0
     
@@ -161,8 +174,10 @@ public class ZCycleView: UIView {
     public var imageContentMode: UIViewContentMode = .scaleToFill
     
     // MARK: - titleLabel setting
+    
     /// The height of the desc containerView, if you set the left image, is also included
     public var titleViewHeight: CGFloat = 25
+    
     /// titleAlignment
     public var titleAlignment: NSTextAlignment = .left
     /// desc font
@@ -202,7 +217,7 @@ public class ZCycleView: UIView {
     public var pageControlHeight: CGFloat = 25 {
         didSet {
             pageControl.frame = CGRect(x: 0, y: frame.size.height-pageControlHeight, width: frame.size.width, height: pageControlHeight)
-            pageControl.updateFrame()
+//            pageControl.updateFrame()
         }
     }
     /// PageControl's backgroundColor
@@ -353,7 +368,6 @@ public class ZCycleView: UIView {
         flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
         collectionView.frame = bounds
         pageControl.frame = CGRect(x: 0, y: frame.size.height-pageControlHeight, width: frame.size.width, height: pageControlHeight)
-        pageControl.updateFrame()
         
         collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
@@ -379,7 +393,7 @@ public class ZCycleView: UIView {
     }
 }
 
-// MARK: - UICollectionViewDataSource/UICollectionViewDelegate
+// MARK: - UICollectionViewDataSource / UICollectionViewDelegate
 extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -429,6 +443,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.imageView.contentMode = imageContentMode
         return cell
     }
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let centerViewPoint = convert(collectionView.center, to: collectionView)
         if let centerIndex = collectionView.indexPathForItem(at: centerViewPoint) {
