@@ -17,6 +17,7 @@ class ZCycleLayout: UICollectionViewFlowLayout {
             }
         }
     }
+    
     override func prepare() {
         super.prepare()
         if let collectionView = collectionView {
@@ -69,8 +70,8 @@ class ZCycleLayout: UICollectionViewFlowLayout {
         var minSpace = CGFloat.greatestFiniteMagnitude
         var offset = proposedContentOffset
         if let collectionView = collectionView {
-            let centerX = offset.x+collectionView.bounds.size.width/2
-            let centerY = offset.y+collectionView.bounds.size.height/2
+            let centerX = offset.x + collectionView.bounds.size.width/2
+            let centerY = offset.y + collectionView.bounds.size.height/2
             var visibleRect: CGRect
             if scrollDirection == .horizontal {
                 visibleRect = CGRect(origin: CGPoint(x: offset.x, y: 0), size: collectionView.bounds.size)
@@ -91,9 +92,9 @@ class ZCycleLayout: UICollectionViewFlowLayout {
                 }
             }
             if scrollDirection == .horizontal {
-                offset.x+=minSpace
+                offset.x += minSpace
             } else {
-                offset.y+=minSpace
+                offset.y += minSpace
             }
         }
         return offset
