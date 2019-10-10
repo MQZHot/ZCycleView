@@ -12,75 +12,6 @@ import SDWebImage
 let width = UIScreen.main.bounds.size.width
 let height = UIScreen.main.bounds.size.height
 
-extension ViewController: ZCycleViewProtocol {
-    func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIImageView, image: UIImage?, index: Int) {
-        if cycleView == cycleView4 {
-            imageView.image = image
-            imageView.layer.borderColor = UIColor.gray.cgColor
-            imageView.layer.borderWidth = 1
-        }
-        if cycleView == cycleView5 {
-            imageView.image = image
-        }
-    }
-    
-    func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: UIImageView, imageUrl: String?, index: Int) {
-        if cycleView == cycleView1 {
-            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
-        }
-        if cycleView == cycleView2 {
-            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
-        }
-    }
-    
-    func cycleViewConfigureDefaultCellText(_ cycleView: ZCycleView, titleLabel: UILabel, index: Int) {
-        if cycleView == cycleView4 {
-            titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-            titleLabel.textColor = .white
-            titleLabel.font = UIFont.systemFont(ofSize: 13)
-        }
-        if cycleView == cycleView5 {
-            let title = titleLabel.text ?? ""
-            let arr = title.components(separatedBy: "\n")
-            let attriStr = NSMutableAttributedString(string: title)
-            attriStr.addAttributes([.foregroundColor: UIColor.green, .font: UIFont.systemFont(ofSize: 13)], range: NSMakeRange(0, arr[0].count))
-            if arr.count > 1 {
-                attriStr.addAttributes([.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 11)], range: NSMakeRange(arr[0].count+1, arr[1].count))
-            }
-            titleLabel.attributedText = attriStr
-            
-            titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-            titleLabel.numberOfLines = 0
-            var frame = titleLabel.frame
-            frame.origin.y = frame.size.height+frame.origin.y-40
-            frame.size.height = 40
-            titleLabel.frame = frame
-        }
-    }
-    func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl) {
-        if cycleView == cycleView1 {
-            pageControl.pageIndicatorTintColor = UIColor.green
-            pageControl.currentPageIndicatorTintColor = UIColor.red
-        }
-        if cycleView == cycleView2 {
-            pageControl.isHidden = true
-        }
-        if cycleView == cycleView4 {
-            pageControl.dotImage = #imageLiteral(resourceName: "github")
-            pageControl.currentDotImage = #imageLiteral(resourceName: "evernote")
-            pageControl.dotSize = CGSize(width: 16, height: 16)
-            pageControl.alignment = .right
-//            pageControl.pageControlHeight = 18
-        }
-        if cycleView == cycleView5 {
-            pageControl.alignment = .right
-            pageControl.spacing = 10
-            pageControl.dotSize = CGSize(width: 20, height: 10)
-//            pageControl.pageControlHeight = 150
-        }
-    }
-}
-
 class ViewController: UIViewController {
     
     @IBOutlet weak var cycleView1: ZCycleView!
@@ -155,4 +86,73 @@ class ViewController: UIViewController {
     }
 }
 
-
+extension ViewController: ZCycleViewProtocol {
+    func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIImageView, image: UIImage?, index: Int) {
+        if cycleView == cycleView4 {
+            imageView.image = image
+            imageView.layer.borderColor = UIColor.gray.cgColor
+            imageView.layer.borderWidth = 1
+        }
+        if cycleView == cycleView5 {
+            imageView.image = image
+        }
+    }
+    
+    func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: UIImageView, imageUrl: String?, index: Int) {
+        if cycleView == cycleView1 {
+            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
+        }
+        if cycleView == cycleView2 {
+            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
+        }
+    }
+    
+    func cycleViewConfigureDefaultCellText(_ cycleView: ZCycleView, titleLabel: UILabel, index: Int) {
+        if cycleView == cycleView4 {
+            titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+            titleLabel.textColor = .white
+            titleLabel.font = UIFont.systemFont(ofSize: 13)
+        }
+        if cycleView == cycleView5 {
+            let title = titleLabel.text ?? ""
+            let arr = title.components(separatedBy: "\n")
+            let attriStr = NSMutableAttributedString(string: title)
+            attriStr.addAttributes([.foregroundColor: UIColor.green, .font: UIFont.systemFont(ofSize: 13)], range: NSMakeRange(0, arr[0].count))
+            if arr.count > 1 {
+                attriStr.addAttributes([.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 11)], range: NSMakeRange(arr[0].count+1, arr[1].count))
+            }
+            titleLabel.attributedText = attriStr
+            
+            titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            titleLabel.numberOfLines = 0
+            var frame = titleLabel.frame
+            frame.origin.y = frame.size.height+frame.origin.y-40
+            frame.size.height = 40
+            titleLabel.frame = frame
+        }
+    }
+    func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl) {
+        if cycleView == cycleView1 {
+            pageControl.pageIndicatorTintColor = UIColor.green
+            pageControl.currentPageIndicatorTintColor = UIColor.red
+        }
+        if cycleView == cycleView2 {
+            pageControl.isHidden = true
+        }
+        if cycleView == cycleView4 {
+            pageControl.dotImage = #imageLiteral(resourceName: "github")
+            pageControl.currentDotImage = #imageLiteral(resourceName: "evernote")
+            pageControl.dotSize = CGSize(width: 16, height: 16)
+            pageControl.alignment = .right
+            var frame = pageControl.frame
+            frame.origin.y = frame.size.height+frame.origin.y-18
+            frame.size.height = 18
+            pageControl.frame = frame
+        }
+        if cycleView == cycleView5 {
+            pageControl.alignment = .right
+            pageControl.spacing = 10
+            pageControl.dotSize = CGSize(width: 20, height: 10)
+        }
+    }
+}

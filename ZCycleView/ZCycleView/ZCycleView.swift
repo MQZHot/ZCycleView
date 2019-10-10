@@ -24,7 +24,7 @@ import UIKit
     @objc optional func customCollectionViewCellIdentifier() -> String
     @objc optional func customCollectionViewCellClassForCycleScrollView() -> AnyClass
     @objc optional func customCollectionViewCellNibForCycleScrollView() -> UINib
-    @objc optional func setupCustomCell(_ cell: UICollectionViewCell, for index: NSInteger, cycleView: ZCycleView)
+    @objc optional func setupCustomCell(_ cell: UICollectionViewCell, for index: Int, cycleView: ZCycleView)
 }
 
 public class ZCycleView: UIView {
@@ -112,7 +112,6 @@ public class ZCycleView: UIView {
         didSet { flowLayout.minimumLineSpacing = itemSpacing }
     }
     
-    // Click and scroll events are in the form of closures  ---- add by LeeYZ
     /// delegate
     public weak var delegate: ZCycleViewProtocol? {
         didSet {
