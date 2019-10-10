@@ -21,10 +21,10 @@ import UIKit
     /// pageControl设置
     @objc optional func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl)
     /// 自定义cell
-    @objc optional func customCollectionViewCellIdentifier() -> String
-    @objc optional func customCollectionViewCellClassForCycleScrollView() -> AnyClass
-    @objc optional func customCollectionViewCellNibForCycleScrollView() -> UINib
-    @objc optional func setupCustomCell(_ cell: UICollectionViewCell, for index: Int, cycleView: ZCycleView)
+    @objc optional func cycleViewCustomCellIdentifier() -> String
+    @objc optional func cycleViewCustomCellClass() -> AnyClass
+    @objc optional func cycleViewCustomCellClassNib() -> UINib
+    @objc optional func cycleViewCustomCellSetup(_ cycleView: ZCycleView, cell: UICollectionViewCell, for index: Int)
 }
 
 public class ZCycleView: UIView {
@@ -206,12 +206,12 @@ extension ZCycleView {
     
     /// add by LeeYZ
     private func registerCell() {
-        if let customReuseIdentifier = delegate?.customCollectionViewCellIdentifier?() {
+        if let customReuseIdentifier = delegate?.cycleViewCustomCellIdentifier?() {
             self.reuseIdentifier = customReuseIdentifier
         }
-        if let customClass = delegate?.customCollectionViewCellClassForCycleScrollView?() {
+        if let customClass = delegate?.cycleViewCustomCellClass?() {
             collectionView.register(customClass, forCellWithReuseIdentifier: reuseIdentifier)
-        } else if let customNib = delegate?.customCollectionViewCellNibForCycleScrollView?() {
+        } else if let customNib = delegate?.cycleViewCustomCellClassNib?() {
             collectionView.register(customNib, forCellWithReuseIdentifier: reuseIdentifier)
         } else {
             collectionView.register(ZCycleViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -248,7 +248,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         let cycleCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         let index = indexPath.item % realDataCount
         
-        if self.delegate?.setupCustomCell?(cycleCell, for: index, cycleView: self) != nil {
+        if self.delegate?.cycleViewCustomCellSetup?(self, cell: cycleCell, for: index) != nil {
             return cycleCell
         }
         /// 使用默认的cell
