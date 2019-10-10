@@ -22,10 +22,10 @@ class ZCycleLayout: UICollectionViewFlowLayout {
         if let collectionView = collectionView {
             if scrollDirection == .horizontal {
                 let offset = (collectionView.frame.size.width-itemSize.width)/2
-                sectionInset = UIEdgeInsetsMake(0, offset, 0, 0)
+                sectionInset = UIEdgeInsets.init(top: 0, left: offset, bottom: 0, right: 0)
             } else {
                 let offset = (collectionView.frame.size.height-itemSize.height)/2
-                sectionInset = UIEdgeInsetsMake(offset, 0, 0, 0)
+                sectionInset = UIEdgeInsets.init(top: offset, left: 0, bottom: 0, right: 0)
             }
         }
     }

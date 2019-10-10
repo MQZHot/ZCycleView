@@ -69,7 +69,7 @@ public class ZCycleView: UIView {
     public var timeInterval: Int = 2
     
     /// scrollDirection
-    public var scrollDirection: UICollectionViewScrollDirection = .horizontal {
+    public var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
         didSet { flowLayout.scrollDirection = scrollDirection }
     }
     
@@ -171,7 +171,7 @@ public class ZCycleView: UIView {
     
     // MARK: - imageView Setting
     /// content Mode of item's image
-    public var imageContentMode: UIViewContentMode = .scaleToFill
+    public var imageContentMode: UIView.ContentMode = .scaleToFill
     
     // MARK: - titleLabel setting
     
@@ -303,11 +303,11 @@ public class ZCycleView: UIView {
         addSubview(placeholderImgView)
         placeholderImgView.translatesAutoresizingMaskIntoConstraints = false
         let hCons = NSLayoutConstraint.constraints(withVisualFormat: "H:|[placeholderImgView]|",
-                                                   options: NSLayoutFormatOptions(),
+                                                   options: NSLayoutConstraint.FormatOptions(),
                                                    metrics: nil,
                                                    views: ["placeholderImgView": placeholderImgView])
         let vCons = NSLayoutConstraint.constraints(withVisualFormat: "V:|[placeholderImgView]|",
-                                                   options: NSLayoutFormatOptions(),
+                                                   options: NSLayoutConstraint.FormatOptions(),
                                                    metrics: nil,
                                                    views: ["placeholderImgView": placeholderImgView])
         addConstraints(hCons)
@@ -329,7 +329,7 @@ public class ZCycleView: UIView {
         collectionView.delegate                       = self
         collectionView.dataSource                     = self
         collectionView.scrollsToTop                   = false
-        collectionView.decelerationRate               = 0.0
+        collectionView.decelerationRate               = UIScrollView.DecelerationRate(rawValue: 0.0)
 //        collectionView.isPagingEnabled                = true
         registerCell()
         addSubview(collectionView)
@@ -497,7 +497,7 @@ extension ZCycleView {
     fileprivate func dealFirstPage() {
         if currentIndex() == 0 && itemsCount > 1 && isInfinite {
             let targetIndex = itemsCount / 2
-            let scrollPosition: UICollectionViewScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
+            let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
             collectionView.scrollToItem(at: IndexPath(item: targetIndex, section: 0), at: scrollPosition, animated: false)
             if didScrollToIndex != nil {
                 didScrollToIndex!(0)
@@ -507,7 +507,7 @@ extension ZCycleView {
     fileprivate func dealLastPage() {
         if currentIndex() == itemsCount-1 && itemsCount > 1 && isInfinite {
             let targetIndex = itemsCount / 2 - 1
-            let scrollPosition: UICollectionViewScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
+            let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
             collectionView.scrollToItem(at: IndexPath(item: targetIndex, section: 0), at: scrollPosition, animated: false)
         }
     }
@@ -519,7 +519,7 @@ extension ZCycleView {
         if itemsCount <= 1 { return }
         cancelTimer()
         timer = Timer.init(timeInterval: Double(timeInterval), target: self, selector: #selector(timeRepeat), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: .commonModes)
+        RunLoop.main.add(timer!, forMode: RunLoop.Mode.common)
     }
     fileprivate func cancelTimer() {
         if timer != nil {
@@ -536,7 +536,7 @@ extension ZCycleView {
             dealLastPage()
             targetIndex = itemsCount / 2
         }
-        let scrollPosition: UICollectionViewScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
+        let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
         collectionView.scrollToItem(at: IndexPath(item: targetIndex, section: 0), at: scrollPosition, animated: true)
     }
     fileprivate func currentIndex() -> Int {
