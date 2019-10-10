@@ -10,151 +10,58 @@ A picture/text infinite-scroll library with UICollectionView, It can be very eas
 
 ## 使用方法
 
-#### Basic usage
-
-pretty easy to use，Basic usage like this
 ```swift
 let cycleView = ZCycleView(frame: frame)
 cycleView.placeholderImage = UIImage(named: "placeholder")
-cycleView.setUrlsGroup(["http://...", "http://...", "http://..."], titlesGroup: ["...", "..."])
+cycleView.setUrlsGroup(["http://...", "http://...", "http://..."])
+cycleView.delegate = self
 view.addSubview(cycleView)
 ```
 
-#### Set  image or image url or text
+#### 要显示网络图片，需要实现下面的代理方法。
+***你可以选择自己喜欢的图片加载库进行显示图片，例如[Kingfisher](https://github.com/onevcat/Kingfisher)或者[SDWebImage](https://github.com/gsdios/SDCycleScrollView)***
 
-you can also set the desc `titlesGroup` or `attributedTitlesGroup`, pick one of two, `attributedTitlesGroup` first
 ```swift
-/// image
-func setImagesGroup(_ imagesGroup: Array<UIImage?>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil)
-/// image url
-func setUrlsGroup(_ urlsGroup: Array<String>, titlesGroup: [String?]? = nil, attributedTitlesGroup: [NSAttributedString?]? = nil)
-/// text only
-func setTitlesGroup(_ titlesGroup: Array<String?>?, attributedTitlesGroup: [NSAttributedString?]? = nil)
+func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: UIImageView, imageUrl: String?, index: Int) {
+    imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
+}
 ````
-If you want the effect in the picture below, use the following method
 
-***Special reminder, be sure to set the size, otherwise the picture does not display***
+#### 显示本地图片，需要实现下面的代理方法
 
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic1.png">
-
-```swift
-func setTitleImagesGroup(_ titleImagesGroup: [UIImage?], sizeGroup:[CGSize?])
-func setTitleImageUrlsGroup(_ titleImageUrlsGroup: [String?], sizeGroup:[CGSize?])
 ```
-#### About item settings
-```swift
-/// The size of the item, the default cycleView size
-var itemSize: CGSize?
-/// The scale of the center item
-var itemZoomScale: CGFloat = 1
-/// The space of items
-var itemSpacing: CGFloat = 0
-/// corner radius
-var itemCornerRadius: CGFloat = 0
-/// item borderColor
-var itemBorderColor: UIColor = UIColor.clear
-/// item borderWidth
-var itemBorderWidth: CGFloat = 0
-```
-E.g, Effect as shown below
-```swift
-cycleView.itemSize = CGSize(width: 240, height: 90)
-cycleView.itemZoomScale = 1.2
-```
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic2.png">
-
-#### About desc settings
-
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic5.png">
-
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic6.png">
-
-```swift
-/// The height of the desc containerView, if you set the left image, is also included
-var titleViewHeight: CGFloat = 25
-/// titleAlignment
-public var titleAlignment: NSTextAlignment = .left
-/// desc font
-public var titleFont: UIFont = UIFont.systemFont(ofSize: 13)
-/// The backgroundColor of the desc containerView
-public var titleBackgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-/// titleColor
-public var titleColor: UIColor = UIColor.white
-/// The number of lines of text displayed
-public var titleNumberOfLines = 1
-/// The breakMode of lines of text displayed
-public var titleLineBreakMode: NSLineBreakMode = .byWordWrapping
-```
-#### About pageControl settings
-
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic3.png">
-
-<img src="https://github.com/MQZHot/ZCycleView/raw/master/Picture/pic4.png">
-
-```swift
-/// Whether to hide pageControl, the default `false`
-var pageControlIsHidden = false
-/// Dot color, the default `gray`
-var pageControlIndictirColor = UIColor.gray
-/// Current dot color, the default `white`
-var pageControlCurrentIndictirColor = UIColor.white
-/// The current dot image
-var pageControlCurrentIndictorImage: UIImage?
-/// The dot image
-var pageControlIndictorImage: UIImage?
-/// The height of pageControl, default `25`
-var pageControlHeight: CGFloat = 25
-/// PageControl's backgroundColor
-var pageControlBackgroundColor = UIColor.clear
-/// The size of all dots
-var pageControlItemSize = CGSize(width: 8, height: 8)
-/// The size of current dot
-var pageControlCurrentItemSize: CGSize?
-/// The space of dot
-var pageControlSpacing: CGFloat = 8
-/// pageControl Alignment, left/right/center , default `center`
-var pageControlAlignment: ZCyclePageControlAlignment = .center
-/// the radius of dot
-var pageControlItemRadius: CGFloat?
-/// the radius of current dot
-var pageControlCurrentItemRadius: CGFloat?
+func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIImageView, image: UIImage?, index: Int) {
+    imageView.image = image
+}
 ```
 
-#### didSelectedItem, didScrollToIndex
-Click and scroll events are in the form of closures or delegate
+#### 修改`pageControl`或者`label`的样式，你可以使用下面的代理方法
 
-```swift
-/// scrollToIndex
-func cycleViewDidScrollToIndex(_ index: Int)
+```
+func cycleViewConfigureDefaultCellText(_ cycleView: ZCycleView, titleLabel: UILabel, index: Int) {
+    titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+    titleLabel.textColor = .white
+    titleLabel.font = UIFont.systemFont(ofSize: 13)
+}
 
-/// selectedIndex
-func cycleViewDidSelectedIndex(_ index: Int)
+func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl) {
+    pageControl.pageIndicatorTintColor = UIColor.green
+    pageControl.currentPageIndicatorTintColor = UIColor.red
+}
 ```
 
-```swift
-/// click
-var didSelectedItem: ((Int)->())?
-/// scroll
-var didScrollToIndex: ((Int)->())?
+#### 自定义cell样式
+
+```
+@objc optional func cycleViewCustomCellIdentifier() -> String
+@objc optional func cycleViewCustomCellClass() -> AnyClass
+@objc optional func cycleViewCustomCellClassNib() -> UINib
+@objc optional func cycleViewCustomCellSetup(_ cycleView: ZCycleView, cell: UICollectionViewCell, for index: Int)
 ```
 
-#### Other prototype
-```swift
-/// isAutomatic
-var isAutomatic: Bool = true
-/// isInfinite
-var isInfinite: Bool = true
-/// scroll timeInterval
-var timeInterval: Int = 2
-/// scrollDirection
-var scrollDirection: UICollectionViewScrollDirection = .horizontal
-/// placeholderImage
-var placeholderImage: UIImage? = nil
-```
+## 联系方式
 
-## Contact
-
-* Email: mqz1228@163.com
+* 邮箱: mqz1228@163.com
 
 ## LICENSE
 
