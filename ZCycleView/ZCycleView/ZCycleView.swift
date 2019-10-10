@@ -18,6 +18,8 @@ import UIKit
     @objc optional func cycleViewDidScrollToIndex(_ cycleView: ZCycleView, index: Int)
     /// 点击了第index个cell
     @objc optional func cycleViewDidSelectedIndex(_ cycleView: ZCycleView, index: Int)
+    /// pageControl设置
+    @objc optional func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl)
     /// 自定义cell
     @objc optional func customCollectionViewCellIdentifier() -> String
     @objc optional func customCollectionViewCellClassForCycleScrollView() -> AnyClass
@@ -110,65 +112,6 @@ public class ZCycleView: UIView {
         didSet { flowLayout.minimumLineSpacing = itemSpacing }
     }
     
-    // MARK: - PageControl setting
-    
-    /// Whether to hide pageControl, the default `false`
-    public var pageControlIsHidden = false {
-        didSet { pageControl.isHidden = pageControlIsHidden }
-    }
-    /// Dot color, the default `gray`
-    public var pageControlIndictirColor = UIColor.gray {
-        didSet { pageControl.pageIndicatorTintColor = pageControlIndictirColor }
-    }
-    /// Current dot color, the default `white`
-    public var pageControlCurrentIndictirColor = UIColor.white {
-        didSet { pageControl.currentPageIndicatorTintColor = pageControlCurrentIndictirColor }
-    }
-    /// The current dot image
-    public var pageControlCurrentIndictorImage: UIImage? {
-        didSet { pageControl.currentDotImage = pageControlCurrentIndictorImage }
-    }
-    /// The dot image
-    public var pageControlIndictorImage: UIImage? {
-        didSet { pageControl.dotImage = pageControlIndictorImage }
-    }
-    /// The height of pageControl, default `25`
-    public var pageControlHeight: CGFloat = 25 {
-        didSet {
-            pageControl.frame = CGRect(x: 0, y: frame.size.height-pageControlHeight, width: frame.size.width, height: pageControlHeight)
-//            pageControl.updateFrame()
-        }
-    }
-    /// PageControl's backgroundColor
-    public var pageControlBackgroundColor = UIColor.clear {
-        didSet { pageControl.backgroundColor = pageControlBackgroundColor }
-    }
-    /// The size of all dots
-    public var pageControlItemSize = CGSize(width: 8, height: 8) {
-        didSet { pageControl.dotSize = pageControlItemSize }
-    }
-    /// The size of current dot
-    public var pageControlCurrentItemSize: CGSize? {
-        didSet { pageControl.currentDotSize = pageControlCurrentItemSize }
-    }
-    /// The space of dot
-    public var pageControlSpacing: CGFloat = 8 {
-        didSet { pageControl.spacing = pageControlSpacing }
-    }
-    /// pageControl Alignment, left/right/center , default `center`
-    public var pageControlAlignment: ZPageControlAlignment = .center {
-        didSet { pageControl.alignment = pageControlAlignment }
-    }
-    /// the radius of dot
-    public var pageControlItemRadius: CGFloat? {
-        didSet { pageControl.dotRadius = pageControlItemRadius }
-    }
-    /// the radius of current dot
-    public var pageControlCurrentItemRadius: CGFloat? {
-        didSet { pageControl.currentDotRadius = pageControlCurrentItemRadius }
-    }
-    
-    // MARK: - closure
     // Click and scroll events are in the form of closures  ---- add by LeeYZ
     /// delegate
     public weak var delegate: ZCycleViewProtocol? {
@@ -216,9 +159,10 @@ public class ZCycleView: UIView {
         super.layoutSubviews()
         flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
         collectionView.frame = bounds
-        pageControl.frame = CGRect(x: 0, y: frame.size.height-pageControlHeight, width: frame.size.width, height: pageControlHeight)
+        pageControl.frame = CGRect(x: 0, y: frame.size.height-25, width: frame.size.width, height: 25)
         collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
+        delegate?.cycleViewConfigurePageControl?(self, pageControl: pageControl)
     }
 }
 
@@ -276,7 +220,7 @@ extension ZCycleView {
     }
     
     private func addPageControl() {
-        pageControl = ZPageControl(frame: CGRect(x: 0, y: bounds.size.height - pageControlHeight, width: bounds.size.width, height: pageControlHeight))
+        pageControl = ZPageControl()
         addSubview(pageControl)
     }
     
@@ -286,10 +230,11 @@ extension ZCycleView {
         collectionView.reloadData()
         collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
+        if isAutomatic { startTimer() }
+        if pageControl.isHidden { return }
         pageControl.numberOfPages = realDataCount
         pageControl.isHidden = realDataCount == 1 || (imagesGroup.count == 0 && imageUrlsGroup.count == 0)
         pageControl.currentPage = currentIndex() % realDataCount
-        if isAutomatic { startTimer() }
     }
 }
 

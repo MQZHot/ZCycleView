@@ -57,6 +57,28 @@ extension ViewController: ZCycleViewProtocol {
             titleLabel.frame = frame
         }
     }
+    func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl) {
+        if cycleView == cycleView1 {
+            pageControl.pageIndicatorTintColor = UIColor.green
+            pageControl.currentPageIndicatorTintColor = UIColor.red
+        }
+        if cycleView == cycleView2 {
+            pageControl.isHidden = true
+        }
+        if cycleView == cycleView4 {
+            pageControl.dotImage = #imageLiteral(resourceName: "github")
+            pageControl.currentDotImage = #imageLiteral(resourceName: "evernote")
+            pageControl.dotSize = CGSize(width: 16, height: 16)
+            pageControl.alignment = .right
+//            pageControl.pageControlHeight = 18
+        }
+        if cycleView == cycleView5 {
+            pageControl.alignment = .right
+            pageControl.spacing = 10
+            pageControl.dotSize = CGSize(width: 20, height: 10)
+//            pageControl.pageControlHeight = 150
+        }
+    }
 }
 
 class ViewController: UIViewController {
@@ -75,8 +97,6 @@ class ViewController: UIViewController {
         cycleView1.setUrlsGroup(["http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171101181927887.jpg",
                                  "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114171645011.jpg",
                                  "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114172009707.png"])
-        cycleView1.pageControlIndictirColor = UIColor.green
-        cycleView1.pageControlCurrentIndictirColor = UIColor.red
         cycleView1.scrollDirection = .vertical
         cycleView1.delegate = self
         
@@ -90,13 +110,7 @@ class ViewController: UIViewController {
                                           "http://t.cn/RYVf1fd",
                                           "http://t.cn/RYVfgeI",
                                           "http://t.cn/RYVfsLo"])
-            self.cycleView2.pageControlIsHidden = true
         }
-        cycleView2.pageControlItemSize = CGSize(width: 16, height: 4)
-        cycleView2.pageControlCurrentItemSize = CGSize(width: 10, height: 10)
-        cycleView2.pageControlIndictirColor = UIColor.red
-        cycleView2.pageControlCurrentIndictirColor = UIColor.blue
-        cycleView2.pageControlHeight = (cycleView2.frame.size.height-90*1.3)/2
         cycleView2.itemSize = CGSize(width: 240, height: 90)
         cycleView2.itemZoomScale = 1.2
         
@@ -121,11 +135,6 @@ class ViewController: UIViewController {
         cycleView4.itemSize = CGSize(width: width-160, height: (width-160)*300/750)
         cycleView4.itemSpacing = 40
         cycleView4.itemZoomScale = 1.2
-        cycleView4.pageControlIndictorImage = #imageLiteral(resourceName: "github")
-        cycleView4.pageControlCurrentIndictorImage = #imageLiteral(resourceName: "evernote")
-        cycleView4.pageControlHeight = 18
-        cycleView4.pageControlItemSize = CGSize(width: 16, height: 16)
-        cycleView4.pageControlAlignment = .right
 
         // example 05
         let titles = ["正在直播·2017维密直播大秀\n天使惊艳合体性感开撩",
@@ -143,9 +152,6 @@ class ViewController: UIViewController {
                                    #imageLiteral(resourceName: "p700-300-5")],titlesGroup: titles)
         cycleView5.itemSize = CGSize(width: width-40, height: (width-40)*30/70)
         cycleView5.itemSpacing = 5
-        cycleView5.pageControlSpacing = 10
-        cycleView5.pageControlItemSize = CGSize(width: 10, height: 10)
-        cycleView5.pageControlHeight = 150
     }
 }
 

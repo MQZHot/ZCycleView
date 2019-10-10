@@ -17,8 +17,6 @@
 		D6924AA21FC076B800ECF805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6924AA11FC076B800ECF805 /* ViewController.swift */; };
 		D697A7361FD643C100E383B3 /* ZPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D697A7351FD643C100E383B3 /* ZPageControl.swift */; };
 		D6ADC09A1FC7CAD900EB357E /* ZCycleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ADC0991FC7CAD900EB357E /* ZCycleLayout.swift */; };
-		D6D543971FCEA0DD00AA97F4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D543961FCEA0DD00AA97F4 /* TableViewController.swift */; };
-		D6D543991FCEA22100AA97F4 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D543981FCEA22100AA97F4 /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,8 +34,6 @@
 		D6924AA11FC076B800ECF805 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D697A7351FD643C100E383B3 /* ZPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZPageControl.swift; sourceTree = "<group>"; };
 		D6ADC0991FC7CAD900EB357E /* ZCycleLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCycleLayout.swift; sourceTree = "<group>"; };
-		D6D543961FCEA0DD00AA97F4 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		D6D543981FCEA22100AA97F4 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +80,6 @@
 				D6924A981FBE904D00ECF805 /* ZCycleView */,
 				D6924A861FBE8F8F00ECF805 /* AppDelegate.swift */,
 				D6924AA11FC076B800ECF805 /* ViewController.swift */,
-				D6D543961FCEA0DD00AA97F4 /* TableViewController.swift */,
-				D6D543981FCEA22100AA97F4 /* TableViewCell.swift */,
 				D6924A8A1FBE8F8F00ECF805 /* Main.storyboard */,
 				D6924A8D1FBE8F8F00ECF805 /* Assets.xcassets */,
 				D6924A8F1FBE8F8F00ECF805 /* LaunchScreen.storyboard */,
@@ -229,8 +223,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6924A9C1FBE945C00ECF805 /* ZCycleViewCell.swift in Sources */,
-				D6D543991FCEA22100AA97F4 /* TableViewCell.swift in Sources */,
-				D6D543971FCEA0DD00AA97F4 /* TableViewController.swift in Sources */,
 				D6ADC09A1FC7CAD900EB357E /* ZCycleLayout.swift in Sources */,
 				D6924AA21FC076B800ECF805 /* ViewController.swift in Sources */,
 				D697A7361FD643C100E383B3 /* ZPageControl.swift in Sources */,

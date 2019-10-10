@@ -11,11 +11,7 @@ import UIKit
 class ZCycleLayout: UICollectionViewFlowLayout {
 
     var scale: CGFloat = 1 {
-        didSet {
-            if scale >= 1 {
-                invalidateLayout()
-            }
-        }
+        didSet { if scale >= 1 { invalidateLayout() } }
     }
     
     override func prepare() {

@@ -15,44 +15,34 @@ public enum ZPageControlAlignment {
 }
 
 public class ZPageControl: UIControl {
-    /// The number of dots
-    public var numberOfPages: Int = 0 {  didSet { setNeedsLayout() } }
-    
-    /// Dot pitch
-    public var spacing: CGFloat = 8 { didSet { updateFrame() } }
-    
-    /// Dot size
-    public var dotSize: CGSize = CGSize(width: 8, height: 8) { didSet { updateFrame() } }
-    
-    /// Current dot size
-    public var currentDotSize: CGSize? { didSet { updateFrame() } }
-    
-    /// Dot alignment
-    public var alignment: ZPageControlAlignment = .center { didSet { updateFrame() } }
-    
-    /// Dot radius
-    public var dotRadius: CGFloat? { didSet { setImageOrTintColor() } }
-    
-    /// Current dot radius
-    public var currentDotRadius: CGFloat? { didSet { setImageOrTintColor() } }
-    
-    /// Current page
+    /// page数量
+    public var numberOfPages: Int = 0
+    /// 圆点间距
+    public var spacing: CGFloat = 8
+    /// 圆点大小
+    public var dotSize: CGSize = CGSize(width: 8, height: 8)
+    /// 当前圆点大小
+    public var currentDotSize: CGSize?
+    /// 圆点对齐方式
+    public var alignment: ZPageControlAlignment = .center
+    /// 圆点圆角
+    public var dotRadius: CGFloat?
+    /// 当前圆点圆角
+    public var currentDotRadius: CGFloat?
+    /// 当前位置
     public var currentPage: Int = 0 { didSet { updateFrame() } }
-    
-    /// CurrentPageIndicatorTintColor
-    public var currentPageIndicatorTintColor: UIColor = UIColor.white { didSet { setImageOrTintColor() } }
-    
-    /// PageIndicatorTintColor
-    public var pageIndicatorTintColor: UIColor = UIColor.gray { didSet { setImageOrTintColor() } }
-    
-    /// Dot image
-    public var dotImage: UIImage? { didSet { setImageOrTintColor() } }
-    
-    /// Current dot image
-    public var currentDotImage: UIImage? { didSet { setImageOrTintColor() } }
+    /// 当前颜色
+    public var currentPageIndicatorTintColor: UIColor = UIColor.white
+    /// 圆点颜色
+    public var pageIndicatorTintColor: UIColor = UIColor.gray
+    /// 圆点图片
+    public var dotImage: UIImage?
+    /// 当前圆点图片
+    public var currentDotImage: UIImage?
     
     private var items = [UIImageView]()
-    public override func layoutSubviews() {
+    
+    override public func layoutSubviews() {
         super.layoutSubviews()
         setupItems()
     }

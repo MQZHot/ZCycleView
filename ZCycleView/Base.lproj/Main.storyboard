@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UVh-cx-s25">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UVh-cx-s25">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,10 +20,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5jh-O3-ZP0">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rmc-97-wIM">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="663.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="664"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Jy-hB-vGR" customClass="ZCycleView" customModule="ZCycleView" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="5" width="414" height="82.666666666666671"/>
@@ -36,28 +33,28 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBi-wS-4Vh" customClass="ZCycleView" customModule="ZCycleView" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="102.66666666666666" width="414" height="154.99999999999997"/>
+                                                <rect key="frame" x="0.0" y="102.66666666666664" width="414" height="155.33333333333337"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="UBi-wS-4Vh" secondAttribute="height" multiplier="640:240" id="52i-r9-UaC"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RJF-NH-qBq" customClass="ZCycleView" customModule="ZCycleView" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="272.66666666666669" width="414" height="35"/>
+                                                <rect key="frame" x="0.0" y="273" width="414" height="35"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="buB-84-qk4"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RXE-NX-gOU" customClass="ZCycleView" customModule="ZCycleView" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="322.66666666666669" width="414" height="155"/>
+                                                <rect key="frame" x="0.0" y="323" width="414" height="155.33333333333337"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="RXE-NX-gOU" secondAttribute="height" multiplier="640:240" id="gNw-kH-HXn"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qP0-5Z-cRZ" customClass="ZCycleView" customModule="ZCycleView" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="492.66666666666669" width="414" height="165.66666666666669"/>
+                                                <rect key="frame" x="0.0" y="493.33333333333343" width="414" height="165.66666666666669"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qP0-5Z-cRZ" secondAttribute="height" multiplier="750:300" id="Niz-ej-MRr"/>
@@ -102,13 +99,7 @@
                             <constraint firstAttribute="trailing" secondItem="5jh-O3-ZP0" secondAttribute="trailing" id="is6-Rr-JgF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="ZCycleView" id="cG6-xU-d8f">
-                        <barButtonItem key="rightBarButtonItem" title="tableView" id="PY0-bH-5UL">
-                            <connections>
-                                <segue destination="UP8-4h-PTS" kind="show" id="qIK-h6-UlA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="ZCycleView" id="cG6-xU-d8f"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="cycleView1" destination="1Jy-hB-vGR" id="aX6-0U-w5B"/>
@@ -122,32 +113,13 @@
             </objects>
             <point key="canvasLocation" x="1191" y="116"/>
         </scene>
-        <!--tableView-->
-        <scene sceneID="db3-0h-ePz">
-            <objects>
-                <tableViewController id="UP8-4h-PTS" customClass="TableViewController" customModule="ZCycleView" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4VK-P6-eJl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <connections>
-                            <outlet property="dataSource" destination="UP8-4h-PTS" id="nW2-fl-jH5"/>
-                            <outlet property="delegate" destination="UP8-4h-PTS" id="soW-gK-7G9"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="tableView" id="4N3-79-5k9"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="v8W-XA-cP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1880" y="116"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="a01-2F-I6S">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UVh-cx-s25" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yXl-Cc-2ao">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
