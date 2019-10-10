@@ -40,7 +40,7 @@ extension ViewController: ZCycleViewProtocol {
             titleLabel.font = UIFont.systemFont(ofSize: 13)
         }
         if cycleView == cycleView5 {
-            let title = titleLabel.text!
+            let title = titleLabel.text ?? ""
             let arr = title.components(separatedBy: "\n")
             let attriStr = NSMutableAttributedString(string: title)
             attriStr.addAttributes([.foregroundColor: UIColor.green, .font: UIFont.systemFont(ofSize: 13)], range: NSMakeRange(0, arr[0].count))
@@ -131,8 +131,7 @@ class ViewController: UIViewController {
         let titles = ["正在直播·2017维密直播大秀\n天使惊艳合体性感开撩",
                       "猎场-会员抢先看\n胡歌陈龙联手戳穿袁总阴谋",
                       "我的！体育老师\n好样的！前妻献媚讨好 张嘉译一口回绝",
-                      "小宝带你模拟断案！\n开局平民，晋升全靠运筹帷幄",
-                      "【挑战极限·精华版】孙红雷咆哮洗车被冻傻"]
+                      "小宝带你模拟断案！\n开局平民，晋升全靠运筹帷幄"]
         cycleView5.delegate = self
         cycleView5.isInfinite = true
         cycleView5.isAutomatic = true

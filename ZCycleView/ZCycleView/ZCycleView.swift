@@ -7,7 +7,7 @@
 //
 
 import UIKit
-// modify by LeeYZ
+
 @objc public protocol ZCycleViewProtocol: class {
     /// 配置默认的cell,
     /// 如果使用默认的cell显示图片，必须实现`cycleViewConfigureDefaultCellImage`或`cycleViewConfigureDefaultCellImageUrl`
@@ -287,7 +287,7 @@ extension ZCycleView {
         collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
         pageControl.numberOfPages = realDataCount
-        pageControl.isHidden = realDataCount == 1
+        pageControl.isHidden = realDataCount == 1 || (imagesGroup.count == 0 && imageUrlsGroup.count == 0)
         pageControl.currentPage = currentIndex() % realDataCount
         if isAutomatic { startTimer() }
     }
@@ -309,6 +309,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         /// 使用默认的cell
         guard let cell = cycleCell as? ZCycleViewCell else { return cycleCell }
+        cell.onlyText = imagesGroup.count == 0 && imageUrlsGroup.count == 0
         let title = index < titlesGroup.count ? titlesGroup[index] : nil
         cell.titleLabel.text = title
         if imagesGroup.count != 0 {
@@ -326,6 +327,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
             }
         }
         delegate?.cycleViewConfigureDefaultCellText?(self, titleLabel: cell.titleLabel, index: index)
+        
         return cell
     }
     

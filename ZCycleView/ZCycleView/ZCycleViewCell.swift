@@ -12,6 +12,15 @@ class ZCycleViewCell: UICollectionViewCell {
     
     var imageView: UIImageView!
     var titleLabel: UILabel!
+    var onlyText: Bool = false {
+        didSet {
+            if onlyText {
+                titleLabel.frame = contentView.bounds
+            } else {
+                titleLabel.frame = CGRect(x: 0, y: contentView.bounds.size.height-25, width: contentView.bounds.size.width, height: 25)
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,7 +35,7 @@ class ZCycleViewCell: UICollectionViewCell {
     }
     
     private func addTitleLabel() {
-        titleLabel = UILabel(frame: CGRect(x: 0, y: contentView.bounds.size.height-25, width: contentView.bounds.size.width, height: 25))
+        titleLabel = UILabel()
         titleLabel.textColor = .gray
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         titleLabel.clipsToBounds = true
