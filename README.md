@@ -29,7 +29,7 @@ func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: U
 
 #### 显示本地图片，需要实现下面的代理方法
 
-```
+```swift
 func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIImageView, image: UIImage?, index: Int) {
     imageView.image = image
 }
@@ -37,7 +37,7 @@ func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIIm
 
 #### 修改`pageControl`或者`label`的样式，你可以使用下面的代理方法
 
-```
+```swift
 func cycleViewConfigureDefaultCellText(_ cycleView: ZCycleView, titleLabel: UILabel, index: Int) {
     titleLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
     titleLabel.textColor = .white
@@ -52,7 +52,7 @@ func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageCo
 
 #### 自定义cell样式
 
-```
+```swift
 @objc optional func cycleViewCustomCellIdentifier() -> String
 @objc optional func cycleViewCustomCellClass() -> AnyClass
 @objc optional func cycleViewCustomCellClassNib() -> UINib
