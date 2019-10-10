@@ -9,7 +9,8 @@
 import UIKit
 // modify by LeeYZ
 @objc public protocol ZCycleViewProtocol: class {
-    /// 配置默认的cell
+    /// 配置默认的cell,
+    /// 如果使用默认的cell显示图片，必须实现`cycleViewConfigureDefaultCellImage`或`cycleViewConfigureDefaultCellImageUrl`
     @objc optional func cycleViewConfigureDefaultCellImage(_ cycleView: ZCycleView, imageView: UIImageView, image: UIImage?, index: Int)
     @objc optional func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: UIImageView, imageUrl: String?, index: Int)
     @objc optional func cycleViewConfigureDefaultCellText(_ cycleView: ZCycleView, titleLabel: UILabel, index: Int)
@@ -306,7 +307,7 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
         if self.delegate?.setupCustomCell?(cycleCell, for: index, cycleView: self) != nil {
             return cycleCell
         }
-        /// default cell
+        /// 使用默认的cell
         guard let cell = cycleCell as? ZCycleViewCell else { return cycleCell }
         let title = index < titlesGroup.count ? titlesGroup[index] : nil
         cell.titleLabel.text = title

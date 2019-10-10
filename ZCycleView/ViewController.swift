@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let width = UIScreen.main.bounds.size.width
 let height = UIScreen.main.bounds.size.height
@@ -25,10 +26,10 @@ extension ViewController: ZCycleViewProtocol {
     
     func cycleViewConfigureDefaultCellImageUrl(_ cycleView: ZCycleView, imageView: UIImageView, imageUrl: String?, index: Int) {
         if cycleView == cycleView1 {
-            imageView.kf.setImage(with: URL(string: imageUrl!), placeholder: cycleView.placeholderImage)
+            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
         }
         if cycleView == cycleView2 {
-            imageView.kf.setImage(with: URL(string: imageUrl!), placeholder: cycleView.placeholderImage)
+            imageView.sd_setImage(with: URL(string: imageUrl!), placeholderImage: cycleView.placeholderImage)
         }
     }
     
