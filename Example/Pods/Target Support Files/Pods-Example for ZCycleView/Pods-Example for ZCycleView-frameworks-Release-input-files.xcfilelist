@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-Example for ZCycleView/Pods-Example for ZCycleView-frameworks.sh
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${BUILT_PRODUCTS_DIR}/ZCycleView/ZCycleView.framework

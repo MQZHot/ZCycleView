@@ -1,0 +1,14 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '9.0'
+
+use_frameworks!
+
+target 'Example for ZCycleView' do
+  
+  pod 'ZCycleView', :path => "../"
+  pod 'SDWebImage'
+  pod 'SnapKit'
+  
+end
+
