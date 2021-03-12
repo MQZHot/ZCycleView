@@ -7,9 +7,10 @@
 //
 
 import SDWebImage
+import SnapKit
 import UIKit
 import ZCycleView
-import SnapKit
+
 let width = UIScreen.main.bounds.size.width
 let height = UIScreen.main.bounds.size.height
 
@@ -18,21 +19,21 @@ class ViewController: UIViewController {
                 "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114171645011.jpg",
                 "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114172009707.png"]
 
-    var cycleView1: ZCycleView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    private lazy var cycleView1: ZCycleView = {
         let width = view.bounds.width - 20
-        cycleView1 = ZCycleView()
-//        cycleView1.frame = CGRect(x: 10, y: 100, width: width, height: width / 5)
+        let cycleView1 = ZCycleView()
         cycleView1.placeholderImage = #imageLiteral(resourceName: "placeholder")
         cycleView1.scrollDirection = .horizontal
         cycleView1.delegate = self
         cycleView1.reloadItems(with: urls.count)
         cycleView1.itemZoomScale = 1.2
         cycleView1.itemSpacing = 20
-        cycleView1.itemSize = CGSize(width: width-150, height: (width-150)/5)
+        cycleView1.itemSize = CGSize(width: width - 150, height: (width - 150) / 5)
+        return cycleView1
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         view.addSubview(cycleView1)
         cycleView1.snp.makeConstraints {
             $0.left.equalTo(10)

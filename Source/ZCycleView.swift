@@ -11,10 +11,12 @@ import UIKit
 @objc public protocol ZCycleViewProtocol: class {
     @objc func cycleViewRegisterCellClasses() -> [String: AnyClass]
     @objc func cycleViewConfigureCell(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, realIndex: Int) -> UICollectionViewCell
-    /// 滚动到第index个cell
+    /// 滚动到第index个
     @objc optional func cycleViewDidScrollToIndex(_ cycleView: ZCycleView, index: Int)
-    /// 点击了第index个cell
+    /// 点击了第index个
     @objc optional func cycleViewDidSelectedIndex(_ cycleView: ZCycleView, index: Int)
+    
+    @objc optional func cycleViewBeginDragingIndex(_ cycleView: ZCycleView, index: Int)
     /// pageControl设置
     @objc optional func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl)
 }
@@ -242,6 +244,9 @@ extension ZCycleView {
         if isAutomatic { cancelTimer() }
         dealLastPage()
         dealFirstPage()
+        guard let delegate = delegate else { return }
+        let index = getCurrentIndex() % realItemsCount
+        delegate.cycleViewBeginDragingIndex?(self, index: index)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
