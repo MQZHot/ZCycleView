@@ -9,41 +9,41 @@
 import UIKit
 
 @objc public protocol ZCycleViewProtocol: class {
+    /// 注册cell，[重用标志符：cell类]
     @objc func cycleViewRegisterCellClasses() -> [String: AnyClass]
+    /// cell赋值
     @objc func cycleViewConfigureCell(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, realIndex: Int) -> UICollectionViewCell
-    /// 滚动到第index个
-    @objc optional func cycleViewDidScrollToIndex(_ cycleView: ZCycleView, index: Int)
-    /// 点击了第index个
-    @objc optional func cycleViewDidSelectedIndex(_ cycleView: ZCycleView, index: Int)
     
+    /// 开始拖拽
     @objc optional func cycleViewBeginDragingIndex(_ cycleView: ZCycleView, index: Int)
-    /// pageControl设置
+    /// 滚动到index
+    @objc optional func cycleViewDidScrollToIndex(_ cycleView: ZCycleView, index: Int)
+    /// 点击了index
+    @objc optional func cycleViewDidSelectedIndex(_ cycleView: ZCycleView, index: Int)
+    /// pageControl
     @objc optional func cycleViewConfigurePageControl(_ cycleView: ZCycleView, pageControl: ZPageControl)
 }
 
 public class ZCycleView: UIView {
+    // 初始下标
+    public var initialIndex: Int?
+    // 当前下标
     public var currentIndex: Int { return getCurrentIndex() }
+    // 当前cell
     public var currentCell: UICollectionViewCell? {
         let indexPath = IndexPath(item: currentIndex, section: 0)
         return collectionView.cellForItem(at: indexPath)
     }
-
+    
     /// 滚动时间间隔，默认2s
     public var timeInterval: Int = 3
     /// 是否自动滚动
     public var isAutomatic: Bool = true
     /// 是否无限轮播
     public var isInfinite: Bool = true {
-        didSet {
-            if isInfinite == false {
-                itemsCount = realItemsCount <= 1 || !isInfinite ? realItemsCount : realItemsCount*200
-                collectionView.reloadData()
-                collectionView.setContentOffset(.zero, animated: false)
-                dealFirstPage()
-            }
-        }
+        didSet { setItemsCount() }
     }
-    
+
     /// 滚动方向
     public var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
         didSet { flowLayout.scrollDirection = scrollDirection }
@@ -93,9 +93,22 @@ public class ZCycleView: UIView {
         }
     }
     
-    public func reloadItems(with count: Int) {
+    /// 刷新数据
+    public func reloadItemsCount(_ count: Int) {
+        cancelTimer()
+        if isAutomatic { startTimer() }
         realItemsCount = count
-        reload()
+        placeholder.isHidden = realItemsCount != 0
+        setItemsCount()
+        dealFirstPage()
+        pageControl.numberOfPages = realItemsCount
+        pageControl.currentPage = getCurrentIndex() % realItemsCount
+    }
+    
+    func setItemsCount() {
+        itemsCount = realItemsCount <= 1 || !isInfinite ? realItemsCount : realItemsCount * 200
+        collectionView.reloadData()
+        collectionView.setContentOffset(.zero, animated: true)
     }
     
     // MARK: - Private
@@ -121,8 +134,13 @@ public class ZCycleView: UIView {
         return collectionView
     }()
     
+    private lazy var pageControl: ZPageControl = {
+        let pageControl = ZPageControl()
+        pageControl.isHidden = true
+        return pageControl
+    }()
+    
     private lazy var placeholder = UIImageView()
-    private var pageControl: ZPageControl!
     
     private var timer: Timer?
     private var itemsCount: Int = 0
@@ -153,9 +171,9 @@ public class ZCycleView: UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
+        if flowLayout.itemSize != .zero { return }
+        print("........")
         flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
-        pageControl.frame = CGRect(x: 0, y: frame.size.height - 25, width: frame.size.width, height: 25)
-        collectionView.setContentOffset(.zero, animated: false)
         dealFirstPage()
         delegate?.cycleViewConfigurePageControl?(self, pageControl: pageControl)
     }
@@ -198,19 +216,6 @@ extension ZCycleView {
         pageControl = ZPageControl()
         addSubview(pageControl)
     }
-    
-    private func reload() {
-        placeholder.isHidden = true
-        itemsCount = realItemsCount <= 1 || !isInfinite ? realItemsCount : realItemsCount*200
-        collectionView.reloadData()
-        collectionView.setContentOffset(.zero, animated: false)
-        dealFirstPage()
-        if isAutomatic { startTimer() }
-        if pageControl.isHidden { return }
-        pageControl.numberOfPages = realItemsCount
-        pageControl.isHidden = realItemsCount == 1
-        pageControl.currentPage = getCurrentIndex() % realItemsCount
-    }
 }
 
 // MARK: - UICollectionViewDataSource / UICollectionViewDelegate
@@ -232,7 +237,8 @@ extension ZCycleView: UICollectionViewDelegate, UICollectionViewDataSource {
             let index = indexPath.item % realItemsCount
             delegate?.cycleViewDidSelectedIndex?(self, index: index)
         } else {
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
+            collectionView.scrollToItem(at: indexPath, at: scrollPosition, animated: true)
         }
     }
 }
@@ -260,12 +266,12 @@ extension ZCycleView {
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         guard let delegate = delegate else { return }
         let index = getCurrentIndex() % realItemsCount
-        pageControl?.currentPage = index
+        pageControl.currentPage = index
         delegate.cycleViewDidScrollToIndex?(self, index: index)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl?.currentPage = getCurrentIndex() % realItemsCount
+        pageControl.currentPage = getCurrentIndex() % realItemsCount
     }
 }
 
@@ -273,16 +279,28 @@ extension ZCycleView {
 
 extension ZCycleView {
     private func dealFirstPage() {
-        if getCurrentIndex() == 0, itemsCount > 1, isInfinite {
-            let targetIndex = itemsCount / 2
-            let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
-            collectionView.scrollToItem(at: IndexPath(item: targetIndex, section: 0), at: scrollPosition, animated: false)
+        if collectionView.frame.size == .zero { return }
+        if getCurrentIndex() == 0, itemsCount > 1 {
+            var targetIndex = isInfinite ? itemsCount / 2 : 0
+            if let initialIndex = initialIndex {
+                targetIndex += max(min(initialIndex, realItemsCount - 1), 0)
+                self.initialIndex = nil
+            }
+            if let attributes = collectionView.layoutAttributesForItem(at: IndexPath(item: targetIndex, section: 0)) {
+                if scrollDirection == .horizontal {
+                    let edgeLeft = (collectionView.bounds.width - flowLayout.itemSize.width) / 2
+                    collectionView.setContentOffset(CGPoint(x: attributes.frame.minX - edgeLeft, y: 0), animated: false)
+                } else {
+                    let edgeTop = (collectionView.bounds.height - flowLayout.itemSize.height) / 2
+                    collectionView.setContentOffset(CGPoint(x: 0, y: attributes.frame.minY - edgeTop), animated: false)
+                }
+            }
         }
     }
 
     private func dealLastPage() {
-        if getCurrentIndex() == itemsCount - 1, itemsCount > 1, isInfinite {
-            let targetIndex = itemsCount / 2 - 1
+        if getCurrentIndex() == itemsCount - 1, itemsCount > 1 {
+            let targetIndex = isInfinite ? itemsCount / 2 - 1 : realItemsCount - 1
             let scrollPosition: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
             collectionView.scrollToItem(at: IndexPath(item: targetIndex, section: 0), at: scrollPosition, animated: false)
         }
@@ -301,17 +319,17 @@ extension ZCycleView {
     }
     
     private func cancelTimer() {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
+        timer?.invalidate()
+        timer = nil
     }
     
     @objc private func timeRepeat() {
-        let current = getCurrentIndex()
-        var targetIndex = current + 1
-        if current == itemsCount - 1 {
-            if isInfinite == false { return }
+        let currentIndex = getCurrentIndex()
+        var targetIndex = currentIndex + 1
+        if currentIndex == itemsCount - 1 {
+            if isInfinite == false {
+                return
+            }
             dealLastPage()
             targetIndex = itemsCount / 2
         }

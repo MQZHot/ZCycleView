@@ -18,10 +18,10 @@ class ZCycleLayout: UICollectionViewFlowLayout {
         if let collectionView = collectionView {
             if scrollDirection == .horizontal {
                 let offset = (collectionView.frame.size.width-itemSize.width)/2
-                sectionInset = UIEdgeInsets(top: 0, left: offset, bottom: 0, right: 0)
+                sectionInset = UIEdgeInsets(top: 0, left: offset, bottom: 0, right: offset)
             } else {
                 let offset = (collectionView.frame.size.height-itemSize.height)/2
-                sectionInset = UIEdgeInsets(top: offset, left: 0, bottom: 0, right: 0)
+                sectionInset = UIEdgeInsets(top: offset, left: 0, bottom: offset, right: 0)
             }
         }
     }
