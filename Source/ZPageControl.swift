@@ -16,7 +16,18 @@ public enum ZPageControlAlignment {
 
 public class ZPageControl: UIControl {
     /// page数量
-    public var numberOfPages: Int = 0
+    public var numberOfPages: Int = 0 {
+        didSet {
+            items.forEach { $0.removeFromSuperview() }
+            items.removeAll()
+            for _ in 0 ..< numberOfPages {
+                let item = UIImageView()
+                addSubview(item)
+                items.append(item)
+            }
+        }
+    }
+
     /// 圆点间距
     public var spacing: CGFloat = 8
     /// 圆点大小
@@ -30,62 +41,31 @@ public class ZPageControl: UIControl {
     /// 当前圆点圆角
     public var currentDotRadius: CGFloat?
     /// 当前位置
-    public var currentPage: Int = 0 { didSet { updateFrame() } }
+    public var currentPage: Int = 0 { didSet { setNeedsLayout() } }
     /// 当前颜色
     public var currentPageIndicatorTintColor = UIColor.white
     /// 圆点颜色
     public var pageIndicatorTintColor = UIColor.gray
-    /// 圆点图片
-    public var dotImage: UIImage?
-    /// 当前圆点图片
-    public var currentDotImage: UIImage?
-    
+
     private var items = [UIImageView]()
-    
+
     override public func layoutSubviews() {
         super.layoutSubviews()
-        setupItems()
-    }
-    
-    private func updateFrame() {
-        for (index, item) in items.enumerated() {
-            let frame = getFrame(index: index)
-            item.frame = frame
-        }
-        setImageOrTintColor()
-    }
-    
-    private func setupItems() {
-        items.forEach { $0.removeFromSuperview() }
-        items.removeAll()
-        for i in 0 ..< numberOfPages {
-            let itemFrame = getFrame(index: i)
-            let item = UIImageView(frame: itemFrame)
-            addSubview(item)
-            items.append(item)
-        }
-        setImageOrTintColor()
-    }
-    
-    private func setImageOrTintColor() {
         for (index, item) in items.enumerated() {
             let itemFrame = getFrame(index: index)
+            item.frame = itemFrame
             if index == currentPage {
-                item.image = currentDotImage
-                item.backgroundColor = currentDotImage == nil ? currentPageIndicatorTintColor : UIColor.clear
+                item.backgroundColor = currentPageIndicatorTintColor
                 var cornerRadius = currentDotRadius == nil ? itemFrame.size.height/2 : currentDotRadius!
-                cornerRadius = currentDotImage == nil ? itemFrame.size.height/2 : 0
                 item.layer.cornerRadius = cornerRadius
             } else {
-                item.image = dotImage
-                item.backgroundColor = dotImage == nil ? pageIndicatorTintColor : UIColor.clear
+                item.backgroundColor = pageIndicatorTintColor
                 var cornerRadius = dotRadius == nil ? itemFrame.size.height/2 : dotRadius!
-                cornerRadius = dotImage == nil ? itemFrame.size.height/2 : 0
                 item.layer.cornerRadius = cornerRadius
             }
         }
     }
-    
+
     private func getFrame(index: Int) -> CGRect {
         let itemW = dotSize.width + spacing
         let currentSize = currentDotSize == nil ? dotSize : currentDotSize!
@@ -111,7 +91,7 @@ public class ZPageControl: UIControl {
         let y = (frame.size.height-height)/2
         return CGRect(x: x, y: y, width: width, height: height)
     }
-    
+
     override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         if hitView == self { return nil }
