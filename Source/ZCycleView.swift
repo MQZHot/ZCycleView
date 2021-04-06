@@ -105,6 +105,11 @@ public class ZCycleView: UIView {
         pageControl.currentPage = getCurrentIndex() % realItemsCount
     }
     
+    /// 滚动到下一页
+    public func scrollToNext() {
+        timeRepeat()
+    }
+    
     func setItemsCount() {
         itemsCount = realItemsCount <= 1 || !isInfinite ? realItemsCount : realItemsCount * 200
         collectionView.reloadData()
