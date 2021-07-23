@@ -176,11 +176,10 @@ public class ZCycleView: UIView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
+        delegate?.cycleViewConfigurePageControl?(self, pageControl: pageControl)
         if flowLayout.itemSize != .zero { return }
-        print("........")
         flowLayout.itemSize = itemSize != nil ? itemSize! : bounds.size
         dealFirstPage()
-        delegate?.cycleViewConfigurePageControl?(self, pageControl: pageControl)
     }
 }
 

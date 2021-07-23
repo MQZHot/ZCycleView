@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "ZCycleView"                              
-s.version      = "1.0.2"
+s.version      = "1.0.3"
 s.summary      = "轮播图"
 s.homepage     = "https://github.com/MQZHot/ZCycleView"
 s.author       = { "MQZHot" => "mqz1228@163.com" }   
